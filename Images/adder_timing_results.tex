@@ -1,0 +1,38 @@
+%TEX root = ./overview.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{loglogaxis}[
+        log ticks with fixed point,
+        width=6cm,
+        xmin=5,
+        xmax=50,
+        ymin=1,
+        xlabel={Posit size},
+        xtick align=inside,
+        xtick={8, 16, 32},
+        ytick={21,38},
+        ylabel={Delay [ns]},
+        legend pos=outer north east,
+        % x tick label style={font=\normalsize, rotate=45, anchor=east}
+        ]
+        \addplot coordinates {
+        (8,21) (16,27) (32,33)
+        };
+        \addplot coordinates {
+        (16,32) (32,38)
+        };
+        \legend{New, Ref}
+      \end{loglogaxis}
+\end{tikzpicture}
+
+
+\end{document}

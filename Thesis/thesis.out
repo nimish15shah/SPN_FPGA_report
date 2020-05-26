@@ -1,0 +1,20 @@
+\BOOKMARK [0][-]{chapter*.1}{Preface}{}% 1
+\BOOKMARK [0][-]{chapter*.3}{Abstract}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 3
+\BOOKMARK [0][-]{chapter.2}{State of the art}{}% 4
+\BOOKMARK [1][-]{section.2.1}{Sum product networks}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.2}{Floating point representation}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{Posit representation}{chapter.2}% 7
+\BOOKMARK [0][-]{chapter.3}{Error bound}{}% 8
+\BOOKMARK [1][-]{section.3.1}{Error bound for Float}{chapter.3}% 9
+\BOOKMARK [1][-]{section.3.2}{Error bound for Posit}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.3}{Error bound for SPNs}{chapter.3}% 11
+\BOOKMARK [0][-]{chapter.4}{Hardware implementation}{}% 12
+\BOOKMARK [1][-]{section.4.1}{Posit representation}{chapter.4}% 13
+\BOOKMARK [1][-]{section.4.2}{Sum product networks}{chapter.4}% 14
+\BOOKMARK [1][-]{section.4.3}{Global system}{chapter.4}% 15
+\BOOKMARK [0][-]{chapter.5}{Results and experiments}{}% 16
+\BOOKMARK [1][-]{section.5.1}{Error bound}{chapter.5}% 17
+\BOOKMARK [1][-]{section.5.2}{Hardware implementation}{chapter.5}% 18
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 19
+\BOOKMARK [0][-]{chapter*.37}{Bibliography}{}% 20

@@ -1,0 +1,50 @@
+%TEX root = ./overwiew.tex
+
+\documentclass[varwidth]{standalone}
+
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+\tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+\tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+\tikzstyle{signal_name} = [above, text width=10em]
+\tikzstyle{module_name} = [above right, text width=10em]
+
+\def\blockdist{2.5cm}
+\def\edgedist{1.5cm}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+
+	\node (decoder) [module, minimum height=4cm] {Posit\\Decoder};
+	\path (decoder.30)+(\blockdist,0) node (exponent) [module] {Exponent\\decoder};
+	\path (decoder)+(-\blockdist,0) node (input) [] {};
+	\path (exponent)+(\blockdist,0) node (output) [] {};
+
+	\path [draw, <-] (exponent.150) -- node[signal_name, align=center] {regime} (decoder.east |- exponent.150);
+	\path [draw, <-] (exponent.-150) -- node[signal_name, align=center] {exp} (decoder.east |- exponent.-150);
+	\path [draw, ->] (decoder.-50) -- node[signal_name, align=center] {significand} (decoder.-50 -| output);
+	\path [draw, ->] (exponent) -- node[signal_name, align=center] {exponent} (exponent -| output);
+	\path [draw, ->] (input.west) -- node[signal_name, align=center] {posit} (decoder.west);
+
+	% \draw [->] (decoder.-30) -- (0,0);
+    \begin{pgfonlayer}{background}
+    	\path (output.west |- decoder.north)+(0.2,0.2) node (a) {};
+    	\path (input.west |- decoder.south)+(-0.2,-0.2) node (b) {};
+        \path [module_def] (a) rectangle (b);
+        \path (output.east |- b) node[module_name, above left] (name) {Decoder Module};
+    \end{pgfonlayer}
+
+
+\end{tikzpicture}
+
+\end{document}
+

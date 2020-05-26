@@ -1,0 +1,245 @@
+%!TEX root = ./thesis.tex
+
+\chapter{State of the art}
+\label{cha:soa}
+
+% ==============================================================================
+\section{Sum product networks}
+% ==============================================================================
+
+\begin{definition}{\Gls{spn}}
+A \gls{spn} is a rooted acyclic graph with variables as leaves, sum and product as internal nodes, and weighted edges \cite{spns}.
+\end{definition}
+
+\Glspl{spn} allows to represent a probability function by keeping the general conditions that makes this function tractable. Two graphical representations from \cite{spns} are shown in Figure \ref{fig:spn_example}. The leaves of this network are the indicators $X_i$ and $\bar{X_i}$. A \gls{spn} represent the probability $P(X_0, \bar{X_0}, ...,  X_N, \bar{X_N})$.
+
+In order to compute a specific set of probability with the evidence that $X_i=0$, the input of the \gls{spn} $X_i$ must be set to $0$ and the indicator $\bar{X_i}$ must be set to $1$. In order to compute a specific set of probability and marginalize over the variable $X_i$, the indicators $X_i$ and $\bar{X_i}$ must both be set to $1$. In any case, the values of the indicator $X_i$ and $\bar{X_i}$ will both be $0$ at the same time.
+
+\begin{figure}[!ht]
+\begin{mdframed}
+	\includestandalone[width=0.43\linewidth]{../Images/spn_example1}
+	\includestandalone[width=0.56\linewidth]{../Images/spn_example2}
+	\caption{Examples of \glspl{spn} from \cite{spns}}
+	\label{fig:spn_example}
+\end{mdframed}
+\end{figure}
+
+\subsection{Properties}
+
+Two properties are interesting for \glspl{spn}: it can be complete and consistent. If an \gls{spn} is complete and consistent, it represent a partition function and can be used to compute all the marginals of this partition function.
+
+\begin{definition}{Complete}
+A \gls{spn} is complete iff all children of the same sum node have the same scope. A counter example is shown in Figure \ref{fig:incomplete}.
+\end{definition}
+
+\begin{definition}{Consistent}
+A \gls{spn} is consistent iff no variable appears negated in one child of a product node and non-negated in another. A counter example is shown in Figure \ref{fig:inconsistent}.
+\end{definition}
+
+\begin{figure}[!ht]
+\begin{mdframed}
+	\centering
+	\subfloat[incomplete]{\includestandalone{../Images/incomplete} \label{fig:incomplete}}
+	\subfloat[inconsistent]{\includestandalone{../Images/inconsistent} \label{fig:inconsistent}}
+\end{mdframed}
+\end{figure}
+
+
+\todo[inline]{Maybe add a real application of \gls{spn} as an example ? To be discussed with Nimish}
+
+% ==============================================================================
+\section{Floating point representation}
+% ==============================================================================
+
+Floating point representation is the most widely used binary representation of numbers for digital applications. The floating point standard IEEE Std 754-2008 is defined in \cite{float_std}. In this work, we do not use floating point number compatible with this standard. The number of bits for the exponent and the fraction may be optimized for a given application. In addition to this, the sign bit is not used since \glspl{spn} are used to represent probabilities, which are only positive numbers.
+
+% ------------------------------------------------------------------------------
+\subsection{Floating point bit-fields}
+% ------------------------------------------------------------------------------
+
+The general representation of the fields of the floating point representation are shown in Figure \ref{fig:float_repr}. There is a sign bit (which is removed in this work), a certain number of exponent bits, and a certain number of fraction bits with an implicit leading one. In a given application, the number of exponent and fraction bits are fixed and cannot be modified.
+
+\begin{figure}[!ht]
+\begin{mdframed}
+	\centering
+	\includestandalone[width=\linewidth]{../Images/float_format}
+	\caption{Floating point format with sign bit. There are three main field: A sign bit (S), a fixed size exponent, and a fraction.}
+	\label{fig:float_repr}
+\end{mdframed}
+\end{figure}
+
+In order to compute the value represented by a floating point number, the Equation \ref{eq:float_repr} must be used where $exp$ represent the signed value of the exponent field and $b_i$ represent the $i^{th}$ bits of the fraction. Depending on the standard used, the exponent can also be encoded using a unsigned integer and be shifted afterward.
+
+\begin{equation}
+x = \xcancel{(-1)^s} \cdot 2^{\text{exp}} \cdot \left( 1 + \sum_{i=1}^{N-1} \text{\textbf{b}}_{N-i} \cdot 2^{-i}\right)
+\label{eq:float_repr}
+\end{equation}
+
+% ------------------------------------------------------------------------------
+\subsection{Floating point operation}
+% ------------------------------------------------------------------------------
+Addition and multiplication operations are also possible using the floating point operation. They require simple operation such as comparison, and shifting. Addition and multiplication are described in Algorithm \ref{alg:float_add} and \ref{alg:float_mult} respectively.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{r = a + b}
+Compare exponent\;
+\eIf{a.exp > b.exp}{
+	r.exp = a.exp\;
+	f1 = a.frac\;
+	f2 = b.frac >> (a.exp - b.exp)\;
+}{
+	r.exp = b.exp\;
+	f1 = a.frac >> (b.exp - a.exp)\;
+	f2 = b.frac\;
+}
+r.frac = f1 + f2\;
+\If{overflow(r)}{
+	r.frac >> 1\;
+	r.exp = r.exp + 1\;
+}
+Return : r\;
+\caption{Floating addition}
+\label{alg:float_add}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{r = a $\cdot$ b}
+r.exp = a.exp + b.exp\;
+r.frac = a.frac $\cdot$ b.frac\;
+Return : r\;
+\caption{Floating multiplication}
+\label{alg:float_mult}
+\end{algorithm}
+
+
+% ==============================================================================
+\section{Posit representation}
+% ==============================================================================
+
+Just like floating point representation, posit representation is a method to represent a floating point number using a fixed point number of binary units. It is also know as the type III \gls{Unum} \cite{unum_wiki}.
+
+% ------------------------------------------------------------------------------
+\subsection{Posit fields}
+% ------------------------------------------------------------------------------
+
+Posit format possesses four fields as shown in Figure \ref{fig:posit_shema}. In this work, the sign bit is not used since posit numbers are used to compute \glspl{spn}, which computes probabilities. Therefore, there are only positive numbers to be represented.
+
+\begin{figure}[!ht]
+\begin{mdframed}
+\centering
+\includestandalone{../Images/posit_format}
+\caption{POSIT format with sign bit. There are four main fields: A sign bit (S), a regime (k), an exponent (exp) and a fraction (frac).}
+\label{fig:posit_shema}
+\end{mdframed}
+\end{figure}
+
+The regime field makes the specificity of the posit representation. It is a variable size field using unary encoding. That is: the value of this field can be found by computing the number of consecutive identical bits. It ends with one bit which break the sequence. Therefore, the minimum length for this field is two: either ``b10'' or ``b01''. The maximum length for this field is equal to the number of bits of the posit representation minus one (for the sign bit). A sequence starting with a 1 represent a positive number, and a sequence starting with a 0 represent a negative number. A regime of zero is represented by ``b10''.
+
+The exponent field has a fixed size. If there are not enough number of bits left in the posit representation due to the regime variable size, every unknown bit of this field has a value of ``b0''.
+
+The fraction field has the same meaning as the fraction field of the floating point representation. There is also a implicit leading one in this field. The significand is the term used to described the fraction to which we add the leading one.
+
+Given these four fields, one can compute the value using Equation \ref{eq:posit_eq}. In Figure \ref{fig:posit_shema}, it is mentioned that the combination of the regime and the exponent field form the real exponent. It is the case because we must use both these numbers to compute the exponent which is applied to the significand.
+
+
+\begin{equation}
+x = \xcancel{(-1)^s} \cdot 2^{2\cdot es \cdot \text{\textbf{k}}} \cdot 2^\text{\textbf{exp}} \cdot \left( 1 + \sum_{i=1}^{N-1}  \text{\textbf{b}}_{N-i} \cdot 2^{-i} \right)
+\label{eq:posit_eq}
+\end{equation}
+
+% ------------------------------------------------------------------------------
+\subsection{Posit operations}
+% ------------------------------------------------------------------------------
+Once decoded, posit numbers can be represented as an exponent and a significand. Therefore, a posit addition or multiplication can be performed using Algorithm \ref{alg:float_add} and \ref{alg:float_mult}. However, a posit encoder and decoder must be used. The pseudo code for the encode and decoder are described in Algorithm \ref{alg:posit_enc} and \ref{alg:posit_dec} respectively.
+
+There are two negative impact for posit numbers. First, because it requires two decoders and one encoders, computation time may be longer. Second, the floating point operation that is performed after decoding the input numbers is also slower than a usual floating point operations since the size of each field (exponent and mantissa) would be bigger than for floating point (given the same number of bits for each representation).
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{exp, frac $\leftarrow$ P}
+regime = leading\_zero\_counter(P)\;
+exp = (P << abs(regime))[0:es]\;
+real\_exp = exp + (regime << es)\;
+frac = \{1, P[es+1:]\}\;
+return real\_exp, frac\;
+\caption{Posit decoder}
+\label{alg:posit_dec}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{P $\leftarrow$ exponent, significand}
+regime, exp $\leftarrow$ exponent\;
+P $\leftarrow$ encode\_unary(regime)\;
+P $\leftarrow$ encode\_binary(exp)\;
+P $\leftarrow$ encode\_binary(significand)\;
+return P\;
+\caption{Posit encoder}
+\label{alg:posit_enc}
+\end{algorithm}
+
+
+% \begin{algorithm}
+% \caption{Posit addition}
+% \begin{algorithmic}[1]
+% \item \textbf{Decode both inputs}\;
+% exp\_A[log(N)+es:0], sig\_A[N-2-es:0] $\leftarrow$ posit\_A[N-1:0]\;
+% exp\_B[log(N)+es:0], sig\_B[N-2-es:0] $\leftarrow$ posit\_B[N-1:0]\;
+% \item \textbf{Compute difference of exponent}\;
+% exp\_diff = exp\_A - exp\_B\;
+% \textbf{IF} (exp\_diff $<$ 0)\;
+% \indent \indent exp\_high, sig\_high = exp\_B, sig\_B\;
+% \indent \indent exp\_low, sig\_low = exp\_A, sig\_A\;
+% \indent \indent exp\_diff\_pos = \textbf{not} exp\_diff\;
+% \textbf{Else}\;
+% \indent \indent exp\_high, sig\_high = exp\_A, sig\_A\;
+% \indent \indent exp\_low, sig\_low = exp\_B, sig\_B\;
+% \indent \indent exp\_diff\_pos = \textbf{not} exp\_diff\;
+% \item \textbf{Shift the low significand}
+% sig\_low\_shift = sig\_low $>>$ exp\_diff\_pos\;
+% \item \textbf{Add the significand and check for sig overflow}
+% sig\_sum\_tmp = sig\_high + sig\_low\_shift\;
+% \textbf{If} (sig\_sum\_tmp overflow)\;
+% \indent \indent sig\_sum = sig\_sum\_tmp $>>$ 1\;
+% \indent  \indent exp\_sum = exp\_high + 1\;
+% \textbf{Else}\;
+% \indent \indent sig\_sum = sig\_sum\_tmp\;
+% \indent  \indent exp\_sum = exp\_high;\
+% \item \textbf{Check for special cases}\;
+% \item \textbf{Encode output}\;
+
+% \end{algorithmic}
+% \label{alg:posit_add}
+% \end{algorithm}
+
+
+
+% \begin{algorithm}
+% \caption{Posit multiplication}
+% \begin{algorithmic}[1]
+% \item \textbf{Decode both inputs}\;
+% exp\_A[log(N)+es:0], sig\_A[N-2-es:0] $\leftarrow$ posit\_A[N-1:0]\;
+% exp\_B[log(N)+es:0], sig\_B[N-2-es:0] $\leftarrow$ posit\_B[N-1:0]\;
+% \item \textbf{Compute temporary results}\;
+% exp\_res\_tmp[log(N)+1:0] = exp\_A + exp\_B\;
+% sig\_res\_tmp = sig\_A * sig\_B\;
+% \item \textbf{Manage overflow of significand}\;
+% \textbf{If} (sig\_overflow)\;
+% \indent \indent exp\_res\_tmp2[log(N)+es+1:0] = exp\_res\_tmp $>>$ 1\;
+% \indent \indent sig\_res\_tmp2 = sig\_res\_tmp + 1\;
+% \textbf{Else}\;
+% \indent \indent exp\_res\_tmp2[log(N)+es+1:0] = exp\_res\_tmp\;
+% \indent \indent sig\_res\_tmp2 = sig\_res\_tmp\;
+% \item \textbf{Manage min and max values}\;
+% \textbf{If} (exponent overflow)\;
+% \indent \indent exp\_res = max\_exp\_res\_possible\;
+% \textbf{Else If} (exponent underflow)\;
+% \indent \indent exp\_res = min\_exp\_res\_possible\;
+% \textbf{Else}\;
+% \indent \indent exp\_res = exp\_res\_tmp2\;
+% \item \textbf{Encode result}\;
+% \end{algorithmic}
+% \label{alg:posit_mul}
+% \end{algorithm}

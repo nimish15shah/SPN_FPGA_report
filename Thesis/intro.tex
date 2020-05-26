@@ -1,0 +1,12 @@
+%!TEX root = ./thesis.tex
+
+\chapter{Introduction}
+\label{cha:intro}
+
+\Glspl{spn} are a brand new deep network architecture for graphical inference \cite{spns}. This architecture is designed to make the partition function tractable. In this work, I study the error bound of the \gls{spn} architecture and observe how it grows in each layer.
+
+Two representations are studied: posit \cite{posit_std} and floating point \cite{float_std}. These two number representations are used to represent floating point numbers in computers. The main difference between these representations is that the exponent field is encoded using a variable length for posit. Therefore there would be cases where posit is better than floating point because exponent fields would be saved, and cases where floating point is better than posit because exponent fields would be wasted. the code to compute the error bound is available at \url{https://github.com/gennartan/spn_sw}.
+
+A hardware implementation of \glspl{spn} in \gls{fpga} is also provided to prove the efficiency of posit representation in a real application. The entire design is made available at \url{https://github.com/gennartan/Arithmetic_circuit_Posit_FPGA/}.
+
+\todo[inline]{Introduction should be longer and explain a bit more the problematic...}

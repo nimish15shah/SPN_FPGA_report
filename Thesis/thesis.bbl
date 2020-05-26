@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{float_std}
+Ieee standard for floating-point arithmetic.
+\newblock {\em IEEE Std 754-2008}, pages 1--70, 2008.
+
+\bibitem{unum_wiki}
+{Contributors to Wikimedia projects}.
+\newblock {Unum (number format) - Wikipedia}, Apr 2020.
+\newblock [Online; accessed 12. May 2020].
+
+\bibitem{bfp}
+I.~Y. John L.~Gustafson.
+\newblock Beating floating point at its own game: Posit arithmetic.
+\newblock \url{http://www.johngustafson.net/pdfs/BeatingFloatingPoint.pdf}.
+
+\bibitem{spns}
+H.~Poon and P.~Domingos.
+\newblock {Sum-Product Networks: A New Deep Architecture}.
+\newblock {\em arXiv}, Feb 2012.
+
+\bibitem{other_fpga}
+R.~S. J. N. S. N. K. N. F. M. R.~L. Rohit~Chaurasiya, John~Gustafson.
+\newblock Parameterized posit arithmetic hardware generator.
+
+\bibitem{errorbound_float}
+N.~Shah, L.~I.~G. Olascoaga, W.~Meert, and M.~Verhelst.
+\newblock {ProbLP: A framework for low-precision probabilistic inference}.
+\newblock {\em Proceedings of the 56th Annual Design Automation Conference
+  2019}, pages 1--6, 2020.
+
+\bibitem{posit_std}
+P.~working group.
+\newblock Posit standard documentation.
+\newblock \url{https://posithub.org/docs/posit_standard.pdf}.
+
+\end{thebibliography}

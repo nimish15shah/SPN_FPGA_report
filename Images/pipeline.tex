@@ -1,0 +1,65 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+% \tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+% \tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+% \tikzstyle{signal_name} = [above, text width=10em]
+% \tikzstyle{module_name} = [above right, text width=10em]
+
+\tikzstyle{base}=[draw, circle, minimum height=0.7cm]
+
+\def\blockdist{1.5cm}
+\def\edgedist{1.5cm}
+
+\begin{tikzpicture}
+
+    \node (decompNode) [base] {};
+    \node (prod) [base, below left=0.7cm and 0.5cmof decompNode] {};
+    \node (subprod) [base, below left=0.7cm and 0.35cm of prod] {};
+    % \node () [right=0cm of prod2, gray!70] {};
+    \node (w1) [base, below right=0.7cm and 0.35cm of prod] {};
+    \node (w2) [base, right = 1cm of w1] {};
+    \node (N1) [below left= 0.7cm and 0.15cm of subprod] {};
+    \node (N2) [below right= 0.7cm and 0.15cm of subprod] {};
+    \node (N3) [below left= 0.7cm and 0.15cm of w1] {};
+    \node (N4) [below right= 0.7cm and 0.15cm of w1] {};
+    \node (N5) [below left= 0.7cm and 0.15cm of w2] {};
+    \node (N6) [below right= 0.7cm and 0.15cm of w2] {};
+
+    \path [draw, ->] (decompNode) -- (prod);
+    \path [draw, ->] (prod) -- (subprod);
+    \path [draw, ->] (prod) -- (w1);
+    \path [draw, ->] (subprod) -- (N1);
+    \path [draw, ->] (subprod) -- (N2);
+    \path [draw, ->] (w1) -- (N3);
+    \path [draw, ->] (w1) -- (N4);
+    \path [draw, ->] (w2) -- (N5);
+    \path [draw, ->] (w2) -- (N6);
+    \path [draw, ->] (decompNode) -- (w2);
+
+    \draw [gray, dashed] (-2.5,-0.5) -- (2,-0.5) node[right, black] {$i+2$};
+    \draw [gray, dashed] (-2.5,-1.8) -- (2,-1.8) node[right, black] {$i+1$};
+    \draw [gray, dashed] (-2.5,-3) -- (2,-3) node[right, black] {$i$};
+    % \path [draw, ->, gray, dashed] (decompNode) -- (prod2);
+
+
+    % \node () [above right=0cm and 0cm of X] {\color{gray} Lit};
+
+    % \path [draw, ->] (literal) -- (X);
+    % \node (encoder) [module,minimum height=4cm] {Posit\\Encoder};
+    % \path (encoder.150)+(-\blockdist,0) node (exponent) [module] {Exponent\\encoder};
+    % \path (encoder.-130)+(-2*\blockdist,0) node (input) [] {};
+    % \path (encoder.0)+(0.5*\blockdist,0) node (output) [] {};
+
+\end{tikzpicture}
+
+\end{document}
+

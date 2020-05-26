@@ -1,0 +1,33 @@
+
+\pgfplotsset{
+    discard if not/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{#1}}
+            \edef\tempb{#2}
+            \ifx\tempa\tempb
+            \else
+                \def\pgfmathresult{inf}
+            \fi
+        }
+    }
+}
+
+\pgfplotsset{
+    discard if not both/.style n args={4}{
+        x filter/.code={
+            \edef\tempa{\thisrow{#1}}
+            \edef\tempb{#2}
+            \edef\tempc{\thisrow{#3}}
+            \edef\tempd{#4}
+            \ifx\tempa\tempb
+                \ifx\tempc\tempd
+                \else
+                    \def\pgfmathresult{inf}
+                \fi
+            \else
+                \def\pgfmathresult{inf}
+            \fi
+        }
+    }
+}
+

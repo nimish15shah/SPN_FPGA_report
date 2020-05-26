@@ -1,0 +1,75 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: intro.aux
+A level-1 auxiliary file: chap-soa.aux
+A level-1 auxiliary file: chap-errorBound.aux
+A level-1 auxiliary file: chap-hardware.aux
+A level-1 auxiliary file: chap-results.aux
+A level-1 auxiliary file: conclusion.aux
+The style file: abbrv.bst
+Database file #1: references.bib
+Warning--to sort, need author or key in float_std
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1049 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1049 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1049 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1049 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1049 of file abbrv.bst
+Warning--empty author in float_std
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1090 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1090 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1090 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1090 of file abbrv.bst
+Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
+while executing---line 1090 of file abbrv.bst
+You've used 7 entries,
+            2118 wiz_defined-function locations,
+            538 strings with 4847 characters,
+and the built_in function-call counts, 1752 in all, are:
+= -- 165
+> -- 65
+< -- 2
++ -- 27
+- -- 20
+* -- 85
+:= -- 286
+add.period$ -- 19
+call.type$ -- 7
+change.case$ -- 31
+chr.to.int$ -- 0
+cite$ -- 9
+duplicate$ -- 70
+empty$ -- 160
+format.name$ -- 20
+if$ -- 380
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 3
+newline$ -- 36
+num.names$ -- 12
+pop$ -- 49
+preamble$ -- 1
+purify$ -- 24
+quote$ -- 0
+skip$ -- 67
+stack$ -- 0
+substring$ -- 66
+swap$ -- 17
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 28
+warning$ -- 2
+while$ -- 17
+width$ -- 8
+write$ -- 67
+(There were 10 error messages)

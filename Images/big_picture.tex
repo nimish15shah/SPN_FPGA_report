@@ -1,0 +1,132 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{arrows.meta, positioning, quotes}
+
+\begin{document}
+
+\tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+\tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+\tikzstyle{signal_name} = [above, text width=10em]
+\tikzstyle{module_name} = [above right, text width=10em]
+\tikzstyle{spn_node} = [draw, circle, fill=green!20, minimum width=0.5cm]
+\tikzstyle{sy} = [yshift=#1mm]
+
+% \def\blockdist{3.5cm}
+% \def\edgedist{1.5cm}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+
+	\node (input) [module, minimum width=2cm, minimum height=8cm] {};
+	\node () [rotate=90] at (input) {Input module};
+
+	\node (spn)[module, minimum width=6cm, minimum height=6cm, above right=-6cm and 1cm of input] {};
+	\node [below right=-0.7cm and -1cm of spn] {SPN};
+
+
+	\node (ctrl)[module,minimum width=2cm,minimum height=2.2cm,above right=-2.2cm and 4cm of spn] {Control};
+	\node (mem)[module, minimum width=2cm,minimum height=4cm,below=1.5cm of ctrl] {RAM};
+
+	\node (fifo)[module, minimum width=1cm, minimum height=1.5cm, above left=-1.8cm and 1.5cm of mem] {FIFO};
+
+
+	\begin{pgfonlayer}{foreground}
+		\node (A) [spn_node, above left=-1cm and -1cm of spn] {$A$};
+		\node (notA) [spn_node, below =0.7cm of A] {$\bar{A}$};
+		\node (B) [spn_node, below =0.7cm of notA] {$B$};
+		\node (notB) [spn_node, below =0.7cm of B] {$\bar{B}$};
+
+		\node (plus1) [spn_node, right=1cm of A] {$+$};
+		\node (plus2) [spn_node, right=1cm of notA] {$+$};
+		\node (plus3) [spn_node, right=1cm of B] {$+$};
+		\node (plus4) [spn_node, right=1cm of notB] {$+$};
+
+		\node (x2) [spn_node, right=-2.4cm of spn] {$\times$};
+		\node (x1) [spn_node, above=0.8cm of x2] {$\times$};
+		\node (x3) [spn_node, below=0.8cm of x2] {$\times$};
+
+		\node (plus) [spn_node, right=-1cm of spn] {$+$};
+
+		\path [draw, ->] (A) -- node[signal_name, align=center] {$w_i$} (plus1);
+		\path [draw, ->] (notA) -- node[signal_name, align=center] {} (plus1);
+		\path [draw, ->] (A) -- node[signal_name, align=center] {} (plus2);
+		\path [draw, ->] (notA) -- node[signal_name, align=center] {} (plus2);
+
+		\path [draw, ->] (B) -- node[signal_name, align=center] {} (plus3);
+		\path [draw, ->] (notB) -- node[signal_name, align=center] {} (plus3);
+		\path [draw, ->] (B) -- node[signal_name, align=center] {} (plus4);
+		\path [draw, ->] (notB) -- node[signal_name, align=center] {} (plus4);
+
+		\path [draw, ->] (plus1) -- node[signal_name, align=center] {} (x1);
+		\path [draw, ->] (plus1) --  (x2);
+		\path [draw, ->] (plus4) --  (x3);
+		\path [draw, ->] (plus4) --  (x2);
+		\path [draw, ->] (plus2) --  (x3);
+		\path [draw, ->] (plus3) --  (x1);
+
+		\path [draw, ->] (x1) -- node[signal_name, align=center] {$w_i$} (plus);
+		\path [draw, ->] (x2) --  (plus);
+		\path [draw, ->] (x3) --  (plus);
+
+	\end{pgfonlayer}
+
+    \begin{pgfonlayer}{background}
+    	\path (input.west |- input.north)+(-0.2,0.2) node (a1) {};
+    	\path (fifo.east |- input.south)+(0.5,-0.2) node (b1) {};
+        \path [module_def] (a1) rectangle (b1);
+        \path (b1) node[module_name, above] (name) {FPGA};
+
+        \path (ctrl.west |- ctrl.north)+(-0.2,0.2) node (a) {};
+    	\path (ctrl.east |- ctrl.south)+(0.2,-0.5) node (b) {};
+        \path [module_def] (a) rectangle (b);
+        \path (b) node[module_name, above right=0cm and -1cm] (name) {OS};
+
+        \path (mem.west |- mem.north)+(-0.2,0.2) node (a) {};
+    	\path (mem.east |- mem.south)+(0.2,-0.5) node (b) {};
+        \path [module_def] (a) rectangle (b);
+        \path (b) node[module_name, above right=0cm and -1.7cm] (name) {Memory};
+    \end{pgfonlayer}
+
+
+	% From memory to input
+	\path [draw, ->] (mem.235) -- (input.east |- mem.235) node[signal_name, above=0cm, midway] {Fixed address read};
+
+	% From input to SPN
+	\coordinate[below=of input.north east] (sig1);
+	\foreach \i [count=\j] in {-1,0,1,2,3,4,5,6,7,8,9}
+	{
+	    \draw[->]   ([sy=-\i*5] sig1) to ([sy=-\i*5] sig1 -| spn.west);
+	}
+
+	% From SPN to output
+	\path [draw, ->] (spn.-30) -- (fifo.west);
+
+	\path [draw, ->] (fifo.east) -- (mem.west |- fifo.east);
+
+	% Control to RAM and SPN
+	\path [draw, ->] (ctrl.-120) -- (ctrl.-120 |- mem.north);
+	\path [draw, <-] (ctrl.-90)  -- (ctrl.-90 |- mem.north) node[signal_name, align=center, right=0.4cm, midway, below] {AXI};
+	% \path [draw, ->] (ctrl.160) -- (b1 |- ctrl.160);
+	% \path [draw, <-] (ctrl.-160) -- (b1 |- ctrl.-160);
+
+	\path [draw, ->] (ctrl.40) --  ++(1,0) node[signal_name, right=0cm] {clk\_spn};
+	\path [draw, ->] (ctrl.15) --  ++(1,0) node[signal_name, right=0cm] {clk\_input};
+	\path [draw, ->] (ctrl.-15) -- ++(1,0) node[signal_name, right=0cm] {stdout};
+
+	\path [draw, <-] (input.107) -- ++(-0.8,0) node[signal_name, left=-2cm] {clk\_input};
+	\path [draw, <-] (spn.125) -- ++(0,0.5) -- ++(-4.9, 0) node[signal_name, left=-2cm]{clk\_spn};
+
+
+\end{tikzpicture}
+
+\end{document}
+

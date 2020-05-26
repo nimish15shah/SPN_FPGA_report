@@ -1,0 +1,59 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+\tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm,rounded corners=1mm]
+\tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+\tikzstyle{signal_name} = [above, text width=10em]
+\tikzstyle{module_name} = [above right]
+
+\def\blockdist{2.5cm}
+\def\edgedist{1.5cm}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+    \node (floatop) [module, minimum height=5cm] {\textit{Floating\\Point}\\Operator};
+
+    \node (dec_1) [module, minimum height=2cm, above left=-2cm and 1cm of floatop] {Decoder\\1};
+    \node (dec_2) [module, minimum height=2cm, below left=-2cm and 1cm of floatop] {Decoder\\2};
+
+    \node (enc) [module, minimum height=2cm, right=1cm of floatop] {Encoder};
+
+    \node (in1) [left=1cm of dec_1, above] {Input 1};
+    \node (in2) [left=1cm of dec_2, above] {Input 2};
+    \node (out) [right=1cm of enc, above] {Output};
+
+    \path [draw, ->] (in1.south) -- (dec_1);
+    \path [draw, ->] (in2.south) -- (dec_2);
+    \path [draw, ->] (dec_1.30) -- node[above] {exp} (floatop.west |- dec_1.30);
+    \path [draw, ->] (dec_1.-30) -- node[above] {sig} (floatop.west |- dec_1.-30);
+    \path [draw, ->] (dec_2.30) -- node[above] {exp} (floatop.west |- dec_2.30);
+    \path [draw, ->] (dec_2.-30) -- node[above] {sig} (floatop.west |- dec_2.-30);
+
+    \path [draw, ->] (enc.150 -| floatop.east) -- node[above] {exp} (enc.150);
+    \path [draw, ->] (enc.-150 -| floatop.east) -- node[above] {sig} (enc.-150);
+
+    \path [draw, ->] (enc.east) -- (out.south);
+
+    \begin{pgfonlayer}{background}
+        \path (out.east |- dec_1.north)+(0.2,0.2) node (a) {};
+        \path (in1.west |- dec_2.south)+(-0.2,-0.2) node (b) {};
+        \path [module_def] (a) rectangle (b);
+        \path (out.east |- b) node[module_name, above left] (name) {Posit operator};
+    \end{pgfonlayer}
+
+
+\end{tikzpicture}
+
+\end{document}
+

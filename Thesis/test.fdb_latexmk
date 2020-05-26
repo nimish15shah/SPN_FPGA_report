@@ -1,0 +1,13 @@
+# Fdb version 3
+["pdflatex"] 1589307731 "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.py" "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.pdf" "test" 1589307731
+  "/etc/texmf/web2c/texmf.cnf" 1587889991 1101 af7716885e081ab43982cab7b4672c1a ""
+  "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.aux" 1589307731 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.py" 1589307731 160 6377011cbd577c88281a9ebca088d4b3 ""
+  "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
+  "/usr/share/texmf/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1588323815 8257235 6af23bb0db748314f4a793c84cddde91 ""
+  "test.py" 1589307731 160 6377011cbd577c88281a9ebca088d4b3 ""
+  (generated)
+  "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.pdf"
+  "/home/gennart/Documents/MAI/Thesis/Reports/Thesis/test.log"
+  "test.log"

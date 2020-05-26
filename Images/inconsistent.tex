@@ -1,0 +1,42 @@
+%TEX root = ./overwiew.tex
+
+\documentclass[varwidth]{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{arrows.meta, positioning, quotes}
+
+\begin{document}
+
+\tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+\tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+\tikzstyle{signal_name} = [above, text width=10em]
+\tikzstyle{module_name} = [above right, text width=10em]
+\tikzstyle{spn_node} = [draw, circle, fill=green!20, minimum width=0.5cm]
+\tikzstyle{sy} = [yshift=#1mm]
+
+% \def\blockdist{3.5cm}
+% \def\edgedist{1.5cm}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+
+	\node (root) [spn_node] {$\times$};
+
+
+	\node (l) [below=1cm of root] {};
+	\node (l1) [left=0.3cm of l] {$X_1$};
+	\node (l2) [right=0.3cm of l] {$\bar{X_1}$};
+
+	\path[draw] (l1) -- (root);
+	\path[draw] (l2) -- (root);
+
+\end{tikzpicture}
+
+\end{document}
+

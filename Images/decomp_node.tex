@@ -1,0 +1,57 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+% \tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+% \tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+% \tikzstyle{signal_name} = [above, text width=10em]
+% \tikzstyle{module_name} = [above right, text width=10em]
+
+\tikzstyle{base}=[draw, circle, minimum height=1cm]
+
+\def\blockdist{1.5cm}
+\def\edgedist{1.5cm}
+
+\begin{tikzpicture}
+
+    \node (decompNode) [base] {+};
+    \node () [above right=0cm and 0cm of decompNode] {\color{gray} Id};
+
+    \node (prod) [base, below left=0.7cm and 0.5cmof decompNode] {$\times$};
+    \node (subprod) [base, below left=0.7cm and 0.35cm of prod] {$\times$};
+    \node (prod2) [right=1cm of prod, gray!50] {};
+    \node (prod3) [right=1cm of prod2, gray!50] {};
+    \node () [right=0cm of prod2, gray!70] {$\ldots$};
+    \node (w) [below right=0.7cm and 0.35cm of prod] {weight};
+    \node (N1) [below left= 0.7cm and 0.15cm of subprod] {Id1};
+    \node (N2) [below right= 0.7cm and 0.15cm of subprod] {Id2};
+
+    \path [draw, ->] (decompNode) -- (prod);
+    \path [draw, ->] (prod) -- (subprod);
+    \path [draw, ->] (prod) -- (w);
+    \path [draw, ->] (subprod) -- (N1);
+    \path [draw, ->] (subprod) -- (N2);
+
+    \path [draw, ->, gray, dashed] (decompNode) -- (prod2);
+    \path [draw, ->, gray, dashed] (decompNode) -- (prod3);
+
+
+    % \node () [above right=0cm and 0cm of X] {\color{gray} Lit};
+
+    % \path [draw, ->] (literal) -- (X);
+    % \node (encoder) [module,minimum height=4cm] {Posit\\Encoder};
+    % \path (encoder.150)+(-\blockdist,0) node (exponent) [module] {Exponent\\encoder};
+    % \path (encoder.-130)+(-2*\blockdist,0) node (input) [] {};
+    % \path (encoder.0)+(0.5*\blockdist,0) node (output) [] {};
+
+\end{tikzpicture}
+
+\end{document}
+

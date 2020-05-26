@@ -1,0 +1,68 @@
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\contentsline {chapter}{Preface}{i}{chapter*.1}%
+\contentsline {chapter}{Abstract}{iii}{chapter*.3}%
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\chapternumberline {2}State of the art}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Sum product networks}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Properties}{3}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Floating point representation}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Floating point bit-fields}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Floating point operation}{5}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Posit representation}{5}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Posit fields}{6}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Posit operations}{6}{subsection.2.3.2}%
+\contentsline {chapter}{\chapternumberline {3}Error bound}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Error bound for Float}{9}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Encoding error}{9}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Addition error}{10}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Multiplication error}{10}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Error bound for Posit}{10}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Encoding error}{10}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Addition error}{11}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Multiplication error}{11}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Error bound for SPNs}{12}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Floating point}{12}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Posit}{12}{subsection.3.3.2}%
+\contentsline {paragraph}{Error for maximum output value}{12}{section*.13}%
+\contentsline {paragraph}{Error for minimum output value}{12}{section*.14}%
+\contentsline {chapter}{\chapternumberline {4}Hardware implementation}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Posit representation}{13}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Encoder and Decoder}{14}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Adder and multiplier}{14}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Sum product networks}{14}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}PSDD file format}{14}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Pipelining}{15}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Global system}{16}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}FPGA}{16}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Memory}{16}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Control unit}{16}{subsection.4.3.3}%
+\contentsline {chapter}{\chapternumberline {5}Results and experiments}{19}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Error bound}{19}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Simple example }{19}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Error bound when both posit and float representation are in range}{19}{subsection.5.1.2}%
+\contentsline {paragraph}{Network 1}{21}{section*.22}%
+\contentsline {paragraph}{Network 2}{21}{section*.24}%
+\contentsline {subsection}{\numberline {5.1.3}Error bound when posit is in range and float representation is not}{22}{subsection.5.1.3}%
+\contentsline {paragraph}{Network 3}{22}{section*.26}%
+\contentsline {subsection}{\numberline {5.1.4}Error bound when floating point is more suitable than posit}{22}{subsection.5.1.4}%
+\contentsline {paragraph}{Network 4}{22}{section*.28}%
+\contentsline {subsection}{\numberline {5.1.5}Analysis of different parameters on a large set of SPNs}{22}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}Hardware implementation}{23}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Posit}{24}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}SPN}{24}{subsection.5.2.2}%
+\contentsline {chapter}{\chapternumberline {6}Conclusion}{25}{chapter.6}%
+\contentsline {chapter}{Bibliography}{29}{chapter*.37}%
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}
+\babel@toc {english}{}

@@ -1,0 +1,38 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+% \tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+% \tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+% \tikzstyle{signal_name} = [above, text width=10em]
+% \tikzstyle{module_name} = [above right, text width=10em]
+
+\tikzstyle{base}=[draw, circle, minimum height=1cm]
+
+\def\blockdist{3.5cm}
+\def\edgedist{2cm}
+
+\begin{tikzpicture}
+
+    \node (literal) [base] {L};
+    \node (val) [above right=0cm and 0cm of literal] {\color{gray} Id};
+    \node (X) [below =of literal] {$X_i$};
+    \node () [above right=0cm and 0cm of X] {\color{gray} Lit};
+
+    \path [draw, ->] (literal) -- (X);
+    % \node (encoder) [module,minimum height=4cm] {Posit\\Encoder};
+    % \path (encoder.150)+(-\blockdist,0) node (exponent) [module] {Exponent\\encoder};
+    % \path (encoder.-130)+(-2*\blockdist,0) node (input) [] {};
+    % \path (encoder.0)+(0.5*\blockdist,0) node (output) [] {};
+
+\end{tikzpicture}
+
+\end{document}
+

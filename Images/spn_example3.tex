@@ -1,0 +1,60 @@
+%TEX root = ./overwiew.tex
+
+\documentclass{standalone}
+% http://texample.net/tikz/examples/inertial-navigation-system/
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{arrows.meta, positioning, quotes}
+
+\begin{document}
+
+\tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
+\tikzstyle{module_def}=[fill=yellow!20,rounded corners, draw=black!50, dashed]
+\tikzstyle{signal_name} = [above, text width=10em]
+\tikzstyle{module_name} = [above right, text width=10em]
+\tikzstyle{spn_node} = [draw, circle, fill=green!20, minimum width=0.5cm]
+\tikzstyle{sy} = [yshift=#1mm]
+
+% \def\blockdist{3.5cm}
+% \def\edgedist{1.5cm}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}
+
+	\node (root) [spn_node] {$+$};
+
+	\node (x) [below=0.7cm of root] {};
+	\node (x1) [spn_node, left=3cm of x] {$\times$};
+	\node (x2) [spn_node, left=0.75cm of x] {$\times$};
+	\node (x3) [spn_node, right=0.75cm of x] {$\times$};
+	\node (x4) [spn_node, right=3cm of x] {$\times$};
+
+
+	\node (l1) [below=1cm of x1] {$X_1$};
+	\node (l2) [below=1cm of x2] {$\bar{X_1}$};
+	\node (l3) [below=1cm of x3] {$X_2$};
+	\node (l4) [below=1cm of x4] {$\bar{X_2}$};
+
+	\path[draw] (l1) -- (x1);
+	\path[draw] (l1) -- (x2);
+	\path[draw] (l2) -- (x3);
+	\path[draw] (l2) -- (x4);
+	\path[draw] (l3) -- (x1);
+	\path[draw] (l3) -- (x3);
+	\path[draw] (l4) -- (x2);
+	\path[draw] (l4) -- (x4);
+
+	\path[draw] (x1) -- node[above left] {0.4} (root);
+	\path[draw] (x2) -- node[left] {0.2} (root);
+	\path[draw] (x3) -- node[right] {0.1} (root);
+	\path[draw] (x4) -- node[above right] {0.3} (root);
+
+\end{tikzpicture}
+
+\end{document}
+
