@@ -1,8 +1,8 @@
 \documentclass[master=eelt,masteroption=ei]{kulemt}
-\setup{title={Error bound analysis of sum product networks using posit representation number over FPGA},
+\setup{title={Low precision artihmetic using posit in sum product networks over FPGA and error bound analysis},
   author={Antoine \textsc{Gennart}},
-  promotor={Prof.\,dr.\,ir.\ Marian \textsc{Verhelst}},
-  assessor={Ir.\, TO FILL},
+  promotor={Prof.\ Marian \textsc{Verhelst}},
+  assessor={Prof.\ Luc \textsc{De Raedt} \\Prof.\ Nele \textsc{Mentens} },
   assistant={Ir.\ Nimish \textsc{Shah}}}
 % The following \setup may be removed entirely if no filing card is wanted
 \setup{filingcard,
@@ -61,7 +61,8 @@
 %%
 \usepackage[acronym]{glossaries}
 \makeglossaries
-\newacronym{Unum}{Unum}{universal number}
+\glsdisablehyper
+\newacronym{unum}{UNum}{universal number}
 \newacronym{spn}{SPN}{sum product network}
 \newacronym{hdl}{HDL}{hardware description language}
 \newacronym{fpga}{FPGA}{field programable gate array}
@@ -71,11 +72,23 @@
 \newacronym[firstplural=digital signal processing (DSPs)]{dsp}{DSP}{digital signal processing}
 \newacronym{lut}{LUT}{look up table}
 \newacronym{jtag}{JTAG}{joint test action group}
+\newacronym{asic}{ASIC}{application-specific itegrated circuit}
+\newacronym{lsb}{LSB}{least significant bit}
+\newacronym{fifo}{FIFO}{first in first out}
+\newacronym{psdd}{PSDD}{probabilistic sequential decision diagram}
 
 \pgfplotsset{compat=1.13}
 
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes,arrows}
+\tikzset{
+diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.south west) -|
+                         (path picture bounding box.north east) -- cycle;}},
+reversed diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.north west) |-
+                         (path picture bounding box.south east) -- cycle;}}
+}
 
 % Finally the hyperref package is used for pdf files.
 % This can be commented out for printed versions.
@@ -84,19 +97,16 @@
 \begin{document}
 
 \begin{preface}
-TODODODOD
   I would like to thank everybody who kept me busy the last year,
-  especially my promoter and my assistants. I would also like to thank the
-  jury for reading the text. My sincere gratitude also goes to my wive and
-  the rest of my family.
+  especially my promoter and my daily advisor. I would also like to thank the
+  jury for reading the text.
+  \todo[inline]{todo}
 \end{preface}
 
 \tableofcontents*
 
 \begin{abstract}
-\todo[inline]{abstract..}
-  The \texttt{abstract} environment contains a more extensive overview of
-  the work. But it should be limited to one page.
+\todo[inline]{todo}
 \end{abstract}
 
 % Now comes the main text

@@ -8,6 +8,15 @@
 \usetikzlibrary{shapes,arrows}
 \usetikzlibrary{arrows.meta, positioning, quotes}
 
+\tikzset{
+diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.south west) -|
+                         (path picture bounding box.north east) -- cycle;}},
+reversed diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.north west) |-
+                         (path picture bounding box.south east) -- cycle;}}
+}
+
 \begin{document}
 
 \tikzstyle{module}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2cm]
@@ -29,15 +38,14 @@
 	\node (input) [module, minimum width=2cm, minimum height=8cm] {};
 	\node () [rotate=90] at (input) {Input module};
 
-	\node (spn)[module, minimum width=6cm, minimum height=6cm, above right=-6cm and 1cm of input] {};
+	\node (spn)[module, fill=red!20, minimum width=6cm, minimum height=6cm, above right=-6cm and 1cm of input] {};
 	\node [below right=-0.7cm and -1cm of spn] {SPN};
 
 
 	\node (ctrl)[module,minimum width=2cm,minimum height=2.2cm,above right=-2.2cm and 4cm of spn] {Control};
 	\node (mem)[module, minimum width=2cm,minimum height=4cm,below=1.5cm of ctrl] {RAM};
 
-	\node (fifo)[module, minimum width=1cm, minimum height=1.5cm, above left=-1.8cm and 1.5cm of mem] {FIFO};
-
+	\node (fifo)[module, minimum width=1cm, minimum height=1.5cm, above left=-1.8cm and 1.5cm of mem, diagonal fill={blue!20}{red!20}] {Fifo};
 
 	\begin{pgfonlayer}{foreground}
 		\node (A) [spn_node, above left=-1cm and -1cm of spn] {$A$};
@@ -118,12 +126,12 @@
 	% \path [draw, ->] (ctrl.160) -- (b1 |- ctrl.160);
 	% \path [draw, <-] (ctrl.-160) -- (b1 |- ctrl.-160);
 
-	\path [draw, ->] (ctrl.40) --  ++(1,0) node[signal_name, right=0cm] {clk\_spn};
-	\path [draw, ->] (ctrl.15) --  ++(1,0) node[signal_name, right=0cm] {clk\_input};
+	\path [draw, ->] (ctrl.40) --  ++(1,0) node[signal_name, right=0cm] {\color{blue!50}clk\_slow};
+	\path [draw, ->] (ctrl.15) --  ++(1,0) node[signal_name, right=0cm] {\color{red!50}clk\_quick};
 	\path [draw, ->] (ctrl.-15) -- ++(1,0) node[signal_name, right=0cm] {stdout};
 
-	\path [draw, <-] (input.107) -- ++(-0.8,0) node[signal_name, left=-2cm] {clk\_input};
-	\path [draw, <-] (spn.125) -- ++(0,0.5) -- ++(-4.9, 0) node[signal_name, left=-2cm]{clk\_spn};
+	% \path [draw, <-] (input.107) -- ++(-0.8,0) node[signal_name, left=-2cm] {clk\_quick};
+	% \path [draw, <-] (spn.125) -- ++(0,0.5) -- ++(-4.9, 0) node[signal_name, left=-2cm]{clk\_slow};
 
 
 \end{tikzpicture}

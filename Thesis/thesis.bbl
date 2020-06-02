@@ -1,18 +1,63 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{float_std}
 Ieee standard for floating-point arithmetic.
 \newblock {\em IEEE Std 754-2008}, pages 1--70, 2008.
+
+\bibitem{awesome_spn}
+arranger1044.
+\newblock {awesome-spn}.
+\newblock \url{https://github.com/arranger1044/awesome-spn}, Jun 2019.
+\newblock [Online; accessed 28. May 2020].
+
+\bibitem{dataset_3}
+J.~Bekker, J.~Davis, A.~Choi, A.~Darwiche, and G.~Broeck.
+\newblock {Tractable Learning for Complex Probability Queries}.
+\newblock {\em Advances in neural information processing systems}, 28, Dec
+  2015.
 
 \bibitem{unum_wiki}
 {Contributors to Wikimedia projects}.
 \newblock {Unum (number format) - Wikipedia}, Apr 2020.
 \newblock [Online; accessed 12. May 2020].
 
+\bibitem{dataset_1}
+J.~D. Daniel~Lowd.
+\newblock {Learning Markov Network Structure with Decision Trees}.
+\newblock
+  \url{https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.188.7026}, May
+  2020.
+\newblock [Online; accessed 27. May 2020].
+
+\bibitem{psdd_0}
+K.~et. al.
+\newblock Probabilistic sequential decision diagrams: Learning with massive
+  logical constraints.
+\newblock 2014.
+
+\bibitem{posit_arithmetic}
+J.~L. Gustafson.
+\newblock Posit arithmetic.
+\newblock \url{https://www.posithub.org/docs/Posits4.pdf}, 2017.
+
+\bibitem{dataset_2}
+J.~D. Jan Van~Haaren.
+\newblock {Markov network structure learning: A randomized feature generation
+  approach}.
+\newblock
+  \url{https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.704.5655}, May
+  2020.
+\newblock [Online; accessed 27. May 2020].
+
 \bibitem{bfp}
 I.~Y. John L.~Gustafson.
 \newblock Beating floating point at its own game: Posit arithmetic.
 \newblock \url{http://www.johngustafson.net/pdfs/BeatingFloatingPoint.pdf}.
+
+\bibitem{other_fpga_2}
+A.~Podobas and S.~Matsuoka.
+\newblock {Hardware Implementation of POSITs and Their Application in FPGAs}.
+\newblock {\em ResearchGate}, pages 138--145, May 2018.
 
 \bibitem{spns}
 H.~Poon and P.~Domingos.
@@ -23,15 +68,38 @@ H.~Poon and P.~Domingos.
 R.~S. J. N. S. N. K. N. F. M. R.~L. Rohit~Chaurasiya, John~Gustafson.
 \newblock Parameterized posit arithmetic hardware generator.
 
+\bibitem{spn_classification}
+B.~M. {Sguerra} and F.~G. {Cozman}.
+\newblock Image classification using sum-product networks for autonomous flight
+  of micro aerial vehicles.
+\newblock In {\em 2016 5th Brazilian Conference on Intelligent Systems
+  (BRACIS)}, pages 139--144, 2016.
+
 \bibitem{errorbound_float}
 N.~Shah, L.~I.~G. Olascoaga, W.~Meert, and M.~Verhelst.
 \newblock {ProbLP: A framework for low-precision probabilistic inference}.
 \newblock {\em Proceedings of the 56th Annual Design Automation Conference
   2019}, pages 1--6, 2020.
 
+\bibitem{dataset}
+Ucla-Starai.
+\newblock {Density-Estimation-Datasets}, Dec 2019.
+\newblock [Online; accessed 27. May 2020].
+
+\bibitem{dataset_4}
+B.~Uria, M.-A.
+  C{\ifmmode\hat{o}\else\^{o}\fi}t{\ifmmode\acute{e}\else\'{e}\fi}, K.~Gregor,
+  I.~Murray, and H.~Larochelle.
+\newblock {Neural Autoregressive Distribution Estimation}.
+\newblock {\em arXiv}, May 2016.
+
 \bibitem{posit_std}
 P.~working group.
 \newblock Posit standard documentation.
 \newblock \url{https://posithub.org/docs/posit_standard.pdf}.
+
+\bibitem{psdd_1}
+G.~V. d.~B. Yitao~Liang, Jessa~Bekker.
+\newblock Learnig the structure of probabilistic sequential decision diagram.
 
 \end{thebibliography}

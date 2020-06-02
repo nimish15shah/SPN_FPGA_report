@@ -29,6 +29,10 @@
     \node [draw, fill=blue!20, minimum width=5cm, minimum height=1cm] (fraction) [right=0cm of exponent] {Fraction};
     \node [draw, fill=gray!20, minimum width=1cm, minimum height=1cm] (sign) [left=0cm of regime] {$S$};
 
+    \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt}] (exponent.north west) -- (exponent.north east) node[midway, yshift=2em] {rs};
+    \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt}] (regime.north west) -- (regime.north east) node[midway, yshift=2em] {es};
+    \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt}] (fraction.north west) -- (fraction.north east) node[midway, yshift=2em] {fs};
+
     \draw [decorate, decoration={brace, amplitude=5pt,mirror, raise=5pt}] (regime.south west) -- (exponent.south east) node[midway,yshift=-2em] {Real exponent};
 \end{tikzpicture}
 

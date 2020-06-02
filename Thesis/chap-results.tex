@@ -3,19 +3,26 @@
 \chapter{Results and experiments}
 \label{cha:res}
 
+Two main subjects are introduced in Chapter \ref{cha:eb} and \ref{cha:hard}. In this chapter, results and experiments for these two subjects are shown.
+
+
 % ==============================================================================
 \section{Error bound}
 % ==============================================================================
 
-In this section, we are computing error bound for different \glspl{spn} as it was described in \ref{cha:eb}. These error bounds over-estimate the maximum possible relative that is possible to observe in a given \gls{spn}. It may happen that a relatively high error bound is theoretically computed, and that in reality, the error is much smaller or even zero.
+In this section, the error bound for different \glspl{spn} is computed as it was described in \ref{cha:eb}. These error bounds over-estimate the maximum possible relative that is possible to observe in a given \gls{spn}. It may happen that a relatively high error bound is theoretically computed, and that in reality, the error is much smaller or even zero.
 
-we start by computing the error bound for a relatively small \gls{spn} in order to show exactly how it is computed and how the results can be interpreted. After that, we explore networks for which both floating point and posit representation could be used since the maximum and minimum value in these networks can be encoded. Then we explore some networks for which only posit representation can be used.
+It starts by computing the error bound for a relatively small \gls{spn} in order to show exactly how it is computed and how the results can be interpreted. After that, we explore networks for which both floating point and posit representation could be used since the maximum and minimum value in these networks are in range of number format. Then we explore some networks for which only posit representation can be used thanks to its wider range.
+
+The simulation is done using a C++ software available at \url{https://github.com/gennartan/spn_sw}. This software uses double floating point precision as ground truth. It is considered that this format is sufficient to represent error bounds of \gls{spn}. As a reminder, double floating point precision numbers uses 64 bits and 11 bits of exponent. Since double floating point format uses 11 bits of exponents, no more than 11 bits of exponents can be used in the simulation.
+
+
 
 % ------------------------------------------------------------------------------
 \subsection{Simple example \label{sec:simple_example}}
 % ------------------------------------------------------------------------------
 
-Lets start by showing results for an simple example to give an intuition on the results. This examples is shown in Figure \ref{fig:example_03} and shows a \gls{spn} with 4 different literals ($1$, $\bar{1}$, $2$, $\bar{2}$) which represents to variables. Each branch has a label for which the error and the possible values are computed in Table \ref{tab:example_03}.
+Lets start by showing results for an simple example to give an intuition on the results. This examples is shown in Figure \ref{fig:example_03} represents a \gls{spn} with 4 different literals ($1$, $\bar{1}$, $2$, $\bar{2}$) which represents two variables. Each branch has a label for which the error and the possible values are computed in Table \ref{tab:example_03}.
 
 In this example, we use 8-bits posit with 0 bits of exponent, and 8-bits float with 3 bits of exponents. From Table \ref{tab:example_03}, it can be observed that the result has a smaller error bound using floating point representation than using posit representation. This behavior is mainly observed on small network because the values inside the \gls{spn} have a relatively short range. Therefore, encoding the exponent in a fixed size field lead to better results. In general, networks are more likely to have a large range of values and posit will have better results.
 
@@ -29,23 +36,22 @@ In this example, we use 8-bits posit with 0 bits of exponent, and 8-bits float w
 \end{figure}
 
 \begin{table}[!ht]
-	\caption{Error analysis for 8 bits posit number with 0 exponent bits and 8 bits float with 3 bits of exponent for the \gls{spn} in Figure \ref{fig:example_03}. Minimum and maximum value represents the minimum (non zero) and maximum value that the node can have. The relative error shows the relative error for posit representation of the minimum value and maximum value. These are the two candidates for worst case of \gls{spn}. The floating point representation only has one column of relative error since it does not depends on the value encoded.}
+	\caption{Error analysis for 8 bits posit number with 0 exponent bits and 8 bits float with 3 bits of exponent for the \gls{spn} in Figure \ref{fig:example_03}. Minimum and maximum value represents the minimum (non zero) and maximum value that the node can have. The relative error shows the relative error for posit representation of the minimum value and maximum value. These are the two candidates for worst case of \gls{spn}. The floating point representation only has one column of relative error since it does not depends on the value encoded. The final worst case relative error bound for posit is 0.1672 and for float it is 0.15.}
 	\label{tab:example_03}
-	\resizebox{\textwidth}{!}{
-	\begin{tabular}{|c|c|c||c|c||c|}
+	\centering
+	\begin{tabular}{|c||c|c||c||c|c||c|}
 	\hline
-		Label & min value & rel error & max value & rel error & rel error float\\ \hline
-		a & 1 & $2^{-7}$ & 1 & $2^{-7}$ & 0.$2^{-6}$ \\ \hline
-		b & 0.5 & $2^{-6}$ & 0.5 & $2^{-6}$ & $2^{-6}$\\ \hline
-		c & 0.5 & 0.0396 & 0.5 & 0.0396 & 0.0476 \\ \hline
-		d & 0.5 & 0.0558 & 1 &  0.0477 & 0.0639 \\ \hline
-		e & 0.5 & 0.0807 & 1 & 0.0641 & 0.0975 \\ \hline
-		f & 1 & 0.0236 & 1 & 0.0236 & 0.0476 \\ \hline
-		g & 0.25 & 0.1319 & 0.5 & 0.0976 & 0.1321 \\ \hline
-		h & 0.5 & 0.0559 & 0.5 & 0.0559 & 0.0806 \\ \hline \hline
-		\textbf{res} & \textbf{0.25} & \textbf{0.1672} & \textbf{1} & \textbf{0.1062} & \textbf{0.150} \\ \hline
+		Label & Min value & Max value & rel error Posit & rel error Float\\ \hline
+		a & 1 & 1 & $2^{-7}$ & $2^{-6}$ \\ \hline
+		b & 0.5 & 0.5 & $2^{-6}$ & $2^{-6}$\\ \hline
+		c & 0.5 & 0.5 & 0.0396 & 0.0476 \\ \hline
+		d & 0.5 & 1 & 0.0558 & 0.0639 \\ \hline
+		e & 0.5 & 1 & 0.0807 & 0.0975 \\ \hline
+		f & 1 & 1 & 0.0236 & 0.0476 \\ \hline
+		g & 0.25 & 0.5 & 0.1319 & 0.1321 \\ \hline
+		h & 0.5 & 0.5 & 0.0559 & 0.0806 \\ \hline \hline
+		\textbf{res} & 0.25 & 1 &  \textbf{0.1672} & \textbf{0.150} \\ \hline
 	\end{tabular}
-	} % resizebox
 \end{table}
 
 % ------------------------------------------------------------------------------
@@ -66,17 +72,17 @@ This show the major limitation of floating point numbers. In order to be able to
 
 \begin{table}[!ht]
 	\centering
-	\caption{Relative error for posit and float representation given a \gls{spn} containing 37460 nodes (28770 products, and 8690 sums). The exponent size was optimized to minimize the relative error.}
+	\caption{Relative error for posit and floating point representation given a \gls{spn} containing 37460 nodes (28770 products, and 8690 sums). The exponent size was optimized to minimize the relative error.}
 	\label{tab:net1_res}
 	\begin{tabular}{|c||c|c|c||c|c|}
 	\hline
-		& \multicolumn{3}{c||}{Posit} &  \multicolumn{2}{c|}{Float} \\
+		& \multicolumn{2}{c||}{Posit} &  \multicolumn{2}{c|}{Float} \\
 	\hline
-		\# bits & exp size & min rel error & max rel error & exp size & rel error \\
+		\# bits & exp size & rel error & exp size & rel error \\
 	\hline
-		20 & 6 & 7e-2 & 6e-2 & 10 & 3e-1 \\
-		24 & 6 & 4e-3 & 4e-3 & 10 & 2e-2 \\
-		28 & 6 & 3e-4 & 2e-4 & 10 & 1e-3 \\
+		20 & 6 & 7e-2 & 10 & 3e-1 \\
+		24 & 6 & 4e-3 & 10 & 2e-2 \\
+		28 & 6 & 3e-4 & 10 & 1e-3 \\
 	\hline
 	\end{tabular}
 \end{table}
@@ -92,18 +98,18 @@ The results for this network are shown in Table \ref{tab:net2_res}. It can be ob
 
 \begin{table}[!ht]
 	\centering
-	\caption{Relative error for posit and float representation given a \gls{spn} containing 3199 nodes (2501 products and 698 sums). The exponent size was optimized to minimize the relative error.}
+	\caption{Relative error for posit and floating point representation given a \gls{spn} containing 3199 nodes (2501 products and 698 sums). The exponent size was optimized to minimize the relative error.}
 	\label{tab:net2_res}
-	\begin{tabular}{|c||c|c|c||c|c|}
+	\begin{tabular}{|c||c|c||	c|c|c|}
 	\hline
-		& \multicolumn{3}{c||}{Posit} &  \multicolumn{2}{c|}{Float} \\
+		& \multicolumn{2}{c||}{Posit} &  \multicolumn{2}{c|}{Float} \\
 	\hline
-		\# bits & exp size & min rel error & max rel error & exp size & rel error \\
+		\# bits & exp size & rel error & exp size & rel error \\
 	\hline
-		16 & 4 & 1e-1 & 4e-2 & 8 & 2e-1 \\
-		20 & 4 & 7e-3 & 3e-3 & 8 & 1e-2 \\
-		24 & 4 & 4e-4 & 2e-4 & 8 & 6e-4 \\
-		28 & 4 & 3e-5 & 1e-5 & 8 & 4e-5 \\
+		16 & 4 & 1e-1 & 8 & 2e-1 \\
+		20 & 4 & 7e-3 & 8 & 1e-2 \\
+		24 & 4 & 4e-4 & 8 & 6e-4 \\
+		28 & 4 & 3e-5 & 8 & 4e-5 \\
 	\hline
 	\end{tabular}
 \end{table}
@@ -114,9 +120,9 @@ From the two examples above, it can be returned that posit representation is bet
 
 
 % ------------------------------------------------------------------------------
-\subsection{Error bound when posit is in range and float representation is not}
+\subsection{Error bound when posit is in range and floating point representation is not}
 % ------------------------------------------------------------------------------
-In this section we describe the results when the smallest value of a \gls{spn} can be represented by posit and cannot be represented by a floating point number due to the limited exponent size. The goal is to show when floating point numbers can not be used in a specific \gls{spn}, posit can be used and still have an error which is relatively small.
+In this section we describe the results when the smallest value of a \gls{spn} can be represented by posit and cannot be represented by a floating point number due to the limited exponent size. The goal is to show that because floating point numbers can not be used in a specific \gls{spn} due to a lack of range, posit can be used and still have an error which is relatively small.
 
 % --------------------------------------
 \paragraph{Network 3}
@@ -128,15 +134,13 @@ The third network contains 827 nodes (622 products and 205 sums). The results ar
 	\centering
 	\caption{Relative error for posit and float representation given a \gls{spn} containing 827 nodes (622 products and 205 sums). The exponent size was optimized to minimize the relative error.}
 	\label{tab:net3_res}
-	\begin{tabular}{|c||c|c|c||c|c|}
+	\begin{tabular}{|c||c|c|}
 	\hline
-		& \multicolumn{3}{c||}{Posit}\\
+		\# bits & exp size & rel error \\
 	\hline
-		\# bits & exp size & min rel error & max rel error \\
-	\hline
-		20 & 8 & 5e-1 & 5e-1 \\
-		24 & 8 & 3e-2 & 2e-2 \\
-		28 & 8 & 2e-3 & 2e-3 \\
+		20 & 8 & 5e-1 \\
+		24 & 8 & 3e-2 \\
+		28 & 8 & 2e-3 \\
 	\hline
 	\end{tabular}
 \end{table}
@@ -146,26 +150,24 @@ The third network contains 827 nodes (622 products and 205 sums). The results ar
 \subsection{Error bound when floating point is more suitable than posit}
 % ------------------------------------------------------------------------------
 
-In some rare case, floating point representation is more suitable than posit as it was shown in the simple example in Section \ref{sec:simple_example}. The goal here is to prove that even in the worst case \gls{spn}, posit representation remains competitive and that it could be used in every networks.
+In some rare case, floating point representation is more suitable than posit as it was shown in the simple example in Section \ref{sec:simple_example}. The goal here is to prove that even in the worst case \gls{spn}, posit representation remains competitive.
 
 % --------------------------------------
 \paragraph{Network 4}
 % --------------------------------------
 
-This fourth network contains 7769 nodes (6134 products and 1635 sums). The results are shown in Table \ref{tab:net4_res}. In the worst case it is better than posit. This is only by a small margin.
+This fourth network contains 7769 nodes (6134 products and 1635 sums). The results are shown in Table \ref{tab:net4_res}. In any case, floating point is more suitable than posit since the relative error is smaller for floating point than for posit. However, they remains very close. In the set of networks that were tested, only a few were more suitable for floating point than posit.
 
 \begin{table}[!ht]
 	\centering
 	\caption{Relative error for posit and float representation given a \gls{spn} containing 7769 nodes (6134 products and 1635 sums). The exponent size was optimized to minimize the relative error.}
 	\label{tab:net4_res}
-	\begin{tabular}{|c||c|c|c||c|c|}
+	\begin{tabular}{|c||c|c||c|c|}
 	\hline
-		& \multicolumn{3}{c||}{Posit} &  \multicolumn{2}{c|}{Float} \\
+		\# bits & exp size & rel error Posit & exp size & rel error Float \\
 	\hline
-		\# bits & exp size & min rel error & max rel error & exp size & rel error \\
-	\hline
-		24 & 8 & 8e-2 & 3e-2 & 11 & 5e-2 \\
-		28 & 8 & 5e-3 & 2e-3 & 11 & 3e-3 \\
+		24 & 8 & 8e-2 & 11 & 5e-2 \\
+		28 & 8 & 5e-3 & 11 & 3e-3 \\
 	\hline
 	\end{tabular}
 \end{table}
@@ -176,21 +178,12 @@ This fourth network contains 7769 nodes (6134 products and 1635 sums). The resul
 \subsection{Analysis of different parameters on a large set of SPNs}
 % ------------------------------------------------------------------------------
 
-In this section, we only take into account \glspl{spn} which are in range of posit and floating point representation.
+In this section, only \glspl{spn} which are in range of posit and floating point representation are taken into account.
 
-A first analysis consists in observing the exponent size as a function of then number of bits. Results are shown in Figure \ref{fig:res_mean_es}. It can be observed that the optimal exponent size for posit representation is 4 bits less that the optimal exponent size for floating point.
+A first analysis consists in observing the exponent size as a function of then number of bits. Results are shown in Figures \ref{fig:res_mean_es} and \ref{fig:res_mean_es_2}. It can be observed that the optimal exponent size for posit representation is 4 bits less that the optimal exponent size for floating point.
 
-A second analysis consists in observing the mean error as a function of the number of bits. Results are shown in Figure \ref{fig:res_mean_err}. The mean relative error is always better for posit than for floating point. However, when using a higher number of bits (28), the error is really close to zero and the actual difference of precision would be very very small.
+A second analysis consists in observing the mean error as a function of the number of bits. Results are shown in Figures \ref{fig:res_mean_err} and \ref{fig:res_mean_err_2}. The mean relative error is always better for posit than for floating point. However, when using a higher number of bits (28), the error is really close to zero and the actual difference of precision would be very very small.
 
-
-
-% \pgfplotstabletypeset[
-%   columns/nBits/.style={column name=nbits},
-%   columns/esPosit/.style={column name=esPosit},
-%   columns/esFloat/.style={column name=esFloat},
-%   columns/minRelErrPosit/.style={column name=errPosit},
-%   columns/minRelErrFloat/.style={column name=errFloat}
-% ]{test.csv}
 
 \begin{figure}[!ht]
 \begin{mdframed}
@@ -200,6 +193,8 @@ A second analysis consists in observing the mean error as a function of the numb
 	\begin{axis}[
 	    xlabel={Number of bits},
 	    ylabel={Mean exponent size},
+	    xtick={16, 20, 24, 28},
+	    ymin=3.5, ymax=10.5,
 	    legend pos=south east,
 	    legend entries={Posit, Float},
 	    width=0.45\linewidth
@@ -215,7 +210,8 @@ A second analysis consists in observing the mean error as a function of the numb
 	\begin{axis}[
 	    xlabel={Number of bits},
 	    ylabel={Mean relative error},
-	    % ymode=log,
+	    xtick={16, 20, 24, 28},
+	    ymin=-0.025, ymax=0.25,
 	    legend pos=north east,
 	    legend entries={Posit, Float},
 	    width=0.45\linewidth
@@ -226,8 +222,51 @@ A second analysis consists in observing the mean error as a function of the numb
 	\end{tikzpicture}
 	\label{fig:res_mean_err}
 }
-\caption{Mean exponent size (left) and mean relative error (right) as a function of the number of bits of a large set of \glspl{spn}.}
+\caption{Mean exponent size (left) and mean relative error (right) as a function of the number of bits of a large set of \glspl{spn}. This graphic is generated by generating each point with all the \glspl{spn} that are able for this number of bits. This induce a small bias in the results and explain the fact that error bound for 16 bits is smaller than 32 bits (the networks that works for 16 bits usually have a smaller error).}
 \label{fig:res_mean}
+\end{mdframed}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\begin{mdframed}
+\centering
+\subfloat[Mean exponent size]{
+	\begin{tikzpicture}
+	\begin{axis}[
+	    xlabel={Number of bits},
+	    ylabel={Mean exponent size},
+	    xtick={16, 20, 24, 28},
+	    ymin=3.5, ymax=10.5,
+	    legend pos=south east,
+	    legend entries={Posit, Float},
+	    width=0.45\linewidth
+	    ]
+	  \addplot table [x=nBits,y=esPosit] {test_2.csv};
+	  \addplot table [x=nBits,y=esFloat] {test_2.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\label{fig:res_mean_es_2}
+}
+\subfloat[Mean error]{
+	\begin{tikzpicture}
+	\begin{axis}[
+	    xlabel={Number of bits},
+	    ylabel={Mean relative error},
+	    xtick={16, 20, 24, 28},
+	    ymin=-0.025, ymax=0.25,
+	    legend pos=north east,
+	    legend entries={Posit, Float},
+	    width=0.45\linewidth
+	    ]
+	  \addplot table [x=nBits,y=minRelErrPosit] {test_2.csv};
+	  \addplot table [x=nBits,y=maxRelErrFloat] {test_2.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\label{fig:res_mean_err_2}
+}
+\caption{Mean exponent size (left) and mean relative error (right) as a function of the number of bits of a large set of \glspl{spn}. This grahic is generated using all the \glspl{spn} that are in range for 16 bits posit. Therefore the error becomes very small for larger size.}
+\label{fig:res_mean_2}
 \end{mdframed}
 \end{figure}
 
@@ -237,35 +276,25 @@ A second analysis consists in observing the mean error as a function of the numb
 
 A complete hardware implementation can be found at \url{https://github.com/gennartan/Arithmetic_circuit_Posit_FPGA}. It contains all the necessary code to implement a \gls{spn} on a \gls{fpga} according to Figure \ref{fig:glob_workflow}.
 
-The parameters to be set are the number of bits, the size of the exponent, the number of bits at the input of the \gls{fpga} (limited to 32), and the number of pipeline stage to be used.
-
+The parameters to be set are the number of bits, the size of the exponent, the number of bits at the input of the \gls{fpga} (limited to 32), and the number of pipeline stage to be used. The key target of this implementation are the size (the \gls{spn} must fit into the \gls{fpga}) and the speed (it must run as quick as possible). Energy consumption is not optimized in this work.
 
 % ------------------------------------------------------------------------------
 \subsection{Posit}
 % ------------------------------------------------------------------------------
 
-Here I present the properties of the posit adder and multiplier that I designed. It consist in describing the size of these blocks (in terms of \gls{lut}) and the maximum frequency at which these blocks can run. Then I compare these characteristics with another working implementation of posit on \gls{fpga}.
+The properties of posit operators are shown in Table \ref{tab:res_add}. It describes the size of these blocks (in terms of \gls{lut}) and the maximum frequency at which these units can run. Results of this sections are also compared to other working \gls{fpga} implementation of posit. This comparison does not compare two identical things since this work does not take into account the sign bit. Therefore there is more space allocated to the different fields of posit, which have a higher cost in hardware than a sign bit.
 
 \begin{table}[!ht]
 \centering
-\caption{Size and maximum frequency of posit operators reported by Vivado. This table also introduce the results from \cite{other_fpga} which also implements posit operations under a zed Board \gls{fpga}.}
+\caption{Size and maximum frequency of posit operators reported by Vivado. This table also introduce the results from \cite{other_fpga} which also implements posit operations under a Zed Board \gls{fpga}.}
 	\label{tab:res_add}
 	\begin{tabular}{|c||c|c|c||c|c|c|}
 	\hline
 		& \multicolumn{3}{c||}{New implementation} & \multicolumn{3}{c|}{Literature \cite{other_fpga}} \\ \hline
-		N, es & \#\gls{lut}Add & \#\gls{lut}Mult & f(MHz) & \#\gls{lut} Add & \#\gls{lut}Mult & f(MHz) \\ \hline
-		8, 0 & 141 & 170 & \multirow{4}{*}{67} & \multirow{4}{*}{NA} & \multirow{4}{*}{NA} & \multirow{4}{*}{NA} \\
-		8, 1 & 159 & 187 & & & & \\
-		8, 2 & 193 & 173 & & & & \\
-		8, 3 & 174 & 154 & & & & \\ \hline
-		16, 0 & 430 & 321 & \multirow{4}{*}{45} & \multirow{4}{*}{$\simeq$400} & \multirow{4}{*}{\parbox{1.5cm}{$\simeq$ 220 +1\gls{dsp}}} & \multirow{4}{*}{32} \\
-		16, 1 & 457 & 394 & & & & \\
-		16, 2 & 500 & 381 & & & & \\
-		16, 3 & 494 & 391 & & & & \\ \hline
-		32, 0 & 1197 & 866 & \multirow{4}{*}{35} & \multirow{4}{*}{$\simeq$950} & \multirow{4}{*}{\parbox{1.5cm}{$\simeq$570 +4\gls{dsp}}} & \multirow{4}{*}{25} \\
-		32, 1 & 1092 & 811 & & & & \\
-		32, 2 & 1110 & 914 & & & & \\
-		32, 3 & 1061 & 1056 & & & & \\ \hline
+		N & \#\gls{lut}Add & \#\gls{lut}Mult & f(MHz) & \#\gls{lut} Add & \#\gls{lut}Mult & f(MHz) \\ \hline
+		8 & 141 & 170 & 67 & & & \\
+		16 & 430 & 310+1\gls{dsp} & 45 & 400 & 220+1\gls{dsp} & 32 \\
+		32 & 1100 &  850+4\gls{dsp} & 35 & 950 & 570+4\gls{dsp} & 25 \\ \hline
  	\end{tabular}
 \end{table}
 
@@ -273,9 +302,47 @@ Here I present the properties of the posit adder and multiplier that I designed.
 \subsection{SPN}
 % ------------------------------------------------------------------------------
 
+In this section, we will show that the hardware implementation can be instanciated for a specific \gls{spn}, and that it can be extented to any network which conforms \glspl{psdd} properties. The chosen \gls{spn} has 67 nodes (50 products and 17 sums). The error bound for this network are shown in Table \ref{tab:nethard_res}. This network was chosen because it fits on the Zed Board and because 16 bits posit numbers have enough precision to represent all the numbers in the \gls{spn}. 16 bits posit is the smallest number of bits that could work with a \gls{spn} of the dataset.
 
-\todo[inline]{SPNs results.. Results are ready, I already have the output from the \gls{fpga}, but I just need to compare it with the output of the software}
+\begin{table}
+	\centering
+	\caption{Relative error for posit and float representation given a \gls{spn} containing 67 nodes (50 products and 17 sums). The exponent size was optimized to minimize the relative error.}
+	\label{tab:nethard_res}
+	\begin{tabular}{|c||c|c|c||c|c|}
+	\hline
+		\# bits & exp size & rel error Posit \\
+	\hline
+		16 & 4 & 5e-2 \\
+		20 & 4 & 3e-3 \\
+		24 & 4 & 2e-4 \\
+		28 & 4 & 1e-5 \\
+	\hline
+	\end{tabular}
+\end{table}
 
 
-\todo[inline]{Add reference of the data-set used in hardware}
-\todo[inline]{Add reference of test set for hardware also}
+\paragraph{Hardware properties}
+
+After an optimization using Vivado tool, this network uses 11000 \glspl{lut} and 50 \glspl{dsp} which represents approximately one fourth of the available hardware on this Zed Board. This size cannot be directly computed from Table \ref{tab:res_add} because the tool optimizes the network are remove / reduce the size of nodes which are not completely used. This highly depends on the \gls{spn} architecture and on its weights. Without the tool optimization, the network size would be in the range of 20000 \glspl{lut} and 50 \glspl{dsp}.
+
+The \gls{spn} was generated with a frequency of 100 MHz for the input module and 35MHz for the \gls{spn}. Using these frequences, the global system is limited to a maximum thoughput of 35MHz. However, the actual thoughput of the \gls{spn} is equal 13MHz. This result is much lower that was expected. There are two reasons that explains this lack of efficiency. The first reason is that the clock domain syncer at the output of the input module takes two clocks cycle to transfer a data. Only because of this, the maximum expected throughput fall from 35MHz to 17.5MHz. The second reason is that the software that must send the data to the \gls{fpga} must also get the output data. Therefore it will loose some time when it is not sending inputs to the input module.
+
+\paragraph{Error bound verification}
+
+In order to proove that our design works properly and that the error bound is also correctly computed, we test the \gls{spn} with a bunch of inputs for this network that comes from \cite{dataset} and which were introduced in \cite{dataset_1}, \cite{dataset_2}, \cite{dataset_3} and \cite{dataset_4}. If none of these inputs prove to have a relative error bigger than the error bound it can be considered that both the hardware implementation and the error bound are correcly set.
+
+The maximum relative error computed is $0.747111 \cdot 2^{-5} == 2.33e-2$ which is smaller than the computed error bound ($2.33e-2 \leq 5e-2)$. Therefore we can conclude that this error bound is correctly computed. We also computed the mean relative error through the network in order to know if the error observed on an output is seldom or not. The mean relative error computed is equalt to $0.513 \cdot 2^{-5}$ which is close to the maximum relative error.
+
+\subsection{Futher work}
+
+The hardware implementation works properly and can be easily regenerated for any \gls{spn}. However, some particular cases may require additional work in order to run. In this section I describe the limitations of the current implementation and explain what could be done in order to address these problems.
+
+The current hardware posit implementation is able to work only with three different number of bits: 8, 16 and 32. This is due to the use of a custom module designed to count the number of leading zero (or one). To remedy this problem, this module should be upgraded to be able to count the number of leading zero for any number of bits. This could be done by adding padding to the inputs or by creating a new module for this function.
+
+Posit standard describes a specific rounding method. However, due to the fact that the regime is unary coded, the rouding of a number can lead to a specific case where the regime would gain (or lose) one bit and require speciifc hardware module to handle this. It would reduce speed and increases ressources consumption.
+
+The operations designed for posit are only two inputs operations. In a \gls{spn}, it is common to observe nodes with more than two inputs. A possible upgrade to this could be to create specific n-inputs operators which could perform multiple operations at the same time. In order to implement this, the code that generate the \gls{spn} should be update to handle this.
+
+The output of the input module uses a clock domain syncer to send the data to the \gls{spn}. This clock domain syncer is not efficient and require two \gls{spn} clock cycles. Therefore the effective frequency of the \gls{spn} is divided by two. This could be increased by placing a \gls{fifo} at the output of the input module in the same way that there is a \gls{fifo} at the output of the \gls{fpga}.
+
+The complete design is controlled by a software that runs on the Zed Board. The generation of this software is not automated. Therefore it should be written again for any new \gls{spn}. A process to automatize this task could be performed.

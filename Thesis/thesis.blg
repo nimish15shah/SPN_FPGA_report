@@ -9,6 +9,10 @@ A level-1 auxiliary file: chap-results.aux
 A level-1 auxiliary file: conclusion.aux
 The style file: abbrv.bst
 Database file #1: references.bib
+Illegal end of database file---line 166 of file references.bib
+ :   howpublished = "\url{https://web.cs.ucla.edu/~yliang/papers/uai2017.pdf}"
+ :                                                                            
+I'm skipping whatever remains of this entry
 Warning--to sort, need author or key in float_std
 Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
 while executing---line 1049 of file abbrv.bst
@@ -21,6 +25,7 @@ while executing---line 1049 of file abbrv.bst
 Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
 while executing---line 1049 of file abbrv.bst
 Warning--empty author in float_std
+Warning--empty journal in psdd_0
 Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
 while executing---line 1090 of file abbrv.bst
 Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
@@ -31,45 +36,47 @@ Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, 
 while executing---line 1090 of file abbrv.bst
 Too many commas in name 1 of "Rohit Chaurasiya, John Gustafson, Rahul Shrestha, Jonathan Neudorfer, Sangeeth Nambiar, Kaustav Niyogi, Farhad Merchant, Rainer Leupers" for entry other_fpga
 while executing---line 1090 of file abbrv.bst
-You've used 7 entries,
+Warning--empty journal in psdd_1
+Warning--empty year in psdd_1
+You've used 18 entries,
             2118 wiz_defined-function locations,
-            538 strings with 4847 characters,
-and the built_in function-call counts, 1752 in all, are:
-= -- 165
-> -- 65
-< -- 2
-+ -- 27
-- -- 20
-* -- 85
-:= -- 286
-add.period$ -- 19
-call.type$ -- 7
-change.case$ -- 31
+            595 strings with 6694 characters,
+and the built_in function-call counts, 4770 in all, are:
+= -- 456
+> -- 196
+< -- 4
++ -- 80
+- -- 62
+* -- 245
+:= -- 790
+add.period$ -- 54
+call.type$ -- 18
+change.case$ -- 85
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 70
-empty$ -- 160
-format.name$ -- 20
-if$ -- 380
+cite$ -- 23
+duplicate$ -- 188
+empty$ -- 411
+format.name$ -- 62
+if$ -- 1023
 int.to.chr$ -- 0
-int.to.str$ -- 7
-missing$ -- 3
-newline$ -- 36
-num.names$ -- 12
-pop$ -- 49
+int.to.str$ -- 18
+missing$ -- 9
+newline$ -- 93
+num.names$ -- 34
+pop$ -- 131
 preamble$ -- 1
-purify$ -- 24
+purify$ -- 67
 quote$ -- 0
-skip$ -- 67
+skip$ -- 167
 stack$ -- 0
-substring$ -- 66
-swap$ -- 17
-text.length$ -- 2
+substring$ -- 181
+swap$ -- 45
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 28
-warning$ -- 2
-while$ -- 17
-width$ -- 8
-write$ -- 67
-(There were 10 error messages)
+type$ -- 72
+warning$ -- 5
+while$ -- 44
+width$ -- 20
+write$ -- 182
+(There were 11 error messages)

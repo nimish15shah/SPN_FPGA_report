@@ -1,0 +1,38 @@
+%!TEX root = ./thesis.tex
+
+\chapter{Conclusion}
+\label{cha:conclusion}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End:
+
+\Glspl{spn} are a new architecture \cite{spns} of deep networks for graphical proabilistic inference. This master's thesis studied the use of custom posit representation for \glspl{spn} implementation over \gls{fpga}. A dual approach is taken. First, a comparison of error bounds of floating point and posit is made. This analysis compare the efficiency in terms of accuracy of different number representation. Second, a hardware implementation is built to evaluate the hardware cost of such a design in a real environement.
+
+\vspace{0.5cm}
+
+From the analysis of relative error bounds in Chapter \ref{cha:eb}, it emerged that posit representation had better accuracies for most of the \glspl{spn} of the dataset. The analysis performed limits the number of bits for each representation to 32 and the size of the exponent fields to 11. Four different networks have been analysed corresponding different use cases.
+
+A first network was analysed for which both floating point and posit are in range. It was chosen because it has a huge number of nodes (28770 nodes). For this network the error bound for posit was 3 to 5 times lower than for floating point.
+
+A second network was analysed for which both representations are also in range. This one was chosen because it was much smaller than the previous one (3199 nodes) and confirmed the results of the first network.
+
+The third network corresponds to the case where posit is in range while floating point is not. These \glspl{spn} have a wide range of number for which 11 bits of exponents is not sufficient. Therefore the use of posit becomes mandatory. This analysis shown that the computed error bound for posit was relatively small and that the fact that floating point is not in range does not mean that the error for posit explodes.
+
+A last network shows an example for which floating point has better accuracy than posit. There exists a few networks for which floating point is better than posit. Even if posit remains very competitive to floating point in such networks, posit should not completely replace them. Floating point numbers still have a lot of hardware advantages compared to posit that justify the prefered use of floating point.
+
+The last analysis concerning the comparison of error bound for posit and float averages the results from the entire set of \glspl{spn}. It ermerged from this experiment that posit had a big advantages for lower number of bits (16, 20) and that this advantages is getting lower for larger number of bits (24, 28).
+
+\vspace{0.5cm}
+
+In Chapter \ref{cha:hard}, a complete hardware implementation of \glspl{spn} using posit representation is built. It is done in three steps: First, the basic building blocks of posit artihmetic are designed. These are the main blocs to be used for \glspl{spn} generation. Second, \glspl{spn} are generated from a file. Third, this generated \gls{spn} is integrated into a global structure to link the network with a control unit. The control unit runs a software that would send the inputs to the \gls{fpga} and get the outputs from it.
+
+The results for the design of posit arithmetic show that the implementations described in this work has comparable size and speed to other implementations. Using 8, 16 and 32 bits, the maximum frequency of goes to 67, 45 and 35MHz respectively.
+
+An example of \gls{spn} generation is done using a network with 67 nodes. Such a network use approximately one quarter of the available hardware ressources. This shows the main limitation of the Zed Board. Large networks cannot fit inside it. Using 16 bits posit, the maximum frequency of this network is then 45MHz.
+
+The global system is built and allows the transfer of data from the control using to the \gls{fpga}. Using this implementation, a maximum throughput of 13MHz can be achieved. This throughput, much lower than the expected \gls{spn} throughput of 35MHz, is mainly due to a clock domain crossing consuming two clock cycle to transfer one data.
+
+Finally, this global system also given the opportunity to run a complete test by comparing the output of the hardware posit implementation with the simulation software of \glspl{spn}. This test validate both the error model and the hardware implementation and showed that the error bound computed is actually two times lower than the error bound.
