@@ -3,10 +3,10 @@
 \chapter{Hardware implementation}
 \label{cha:hard}
 
-A hardware implementation consist in a set of file written in \gls{hdl} with constraints associated to these files. First, I describe the hardware implementation of operations on posit numbers, which are the basic building blocks of \glspl{spn}. Then I explain how \glspl{spn} hardware files are generated from a trained \gls{spn} file. Finally, I describe the implementation of the \gls{spn} inside the \gls{fpga} with the complete control scheme. The design is intended to work on a Zed Board.
+A hardware implementation consist in a set of file written in \gls{hdl} with constraints associated to these files. First, I describe the hardware implementation of operations on posit numbers, which are the basic building blocks of \glspl{spn}. Then I explain how \glspl{spn} hardware files are generated from a trained \gls{spn} file. Finally, I describe \ns{use passive voice to avoid repeated first person sentences} the implementation of the \gls{spn} inside the \gls{fpga} with the complete control scheme. The design is intended to work on a Zed Board.
 
 % ==============================================================================
-\section{Posit representation}
+\section{Posit representation \ns{something else instead of representation? e.g. hardware operator?}}
 % ==============================================================================
 
 In this section, I describe how posit operations are performed in hardware. The general schematic is described in Figure \ref{fig:posit_op}. The floating point operation mentioned here represents the operation described in Algorithm \ref{alg:float_add} and \ref{alg:float_mult}. For a posit operation, the size of each field must be properly computed and is different from a classical floating point operation.
@@ -25,7 +25,7 @@ In this section, I describe how posit operations are performed in hardware. The 
 % ------------------------------------------------------------------------------
 As posit representation use variable size fields, an encoder and decoder are required to extract useful information from a raw binary sequence.
 
-The encoder schematized in Figure \ref{fig:enc_mod} is composed of two smaller encoder. A first one which convert an exponent into a regime value and an exponent value. And a second one which take as input the regime, the exponent and the significand to output a posit number. It is in this block that the number are truncated in case of rounding and that information is lost.
+The encoder schematized in Figure \ref{fig:enc_mod} is composed of two smaller encoder. A first one which convert an exponent into a regime value and an exponent value \ns{describe how this is done using block diagrams or pseudocode}. And a second one which take as input the regime, the exponent and the significand to output a posit number. It is in this block that the number are truncated in case of rounding and that information is lost. \ns{Make these blocks more detailed. Explain internar hardware units. Do you use shifters? if yes, put them in the diagram. See this for inspiration: https://hal.inria.fr/hal-01959581v3/document}
 
 The decoder schematized in Figure \ref{fig:dec_mod} is basically the inverse of the encoder except that there is no rounding implemented.
 
@@ -33,7 +33,7 @@ The decoder schematized in Figure \ref{fig:dec_mod} is basically the inverse of 
 \begin{mdframed}
 	\subfloat[Encoder]{\includegraphics[width=0.49\linewidth]{../Images/encoder_module} \label{fig:enc_mod}}
 	\subfloat[Decoder]{\includegraphics[width=0.49\linewidth]{../Images/decoder_module} \label{fig:dec_mod}}
-	\caption{Schematic of encoder and decoder modules}
+	\caption{Schematic of encoder and decoder modules \ns{indicate number of bits of each of these fields for clarity}}
 	\label{fig:enc_dec_mod}
 \end{mdframed}
 \end{figure}
@@ -43,7 +43,7 @@ The decoder schematized in Figure \ref{fig:dec_mod} is basically the inverse of 
 % ------------------------------------------------------------------------------
 Once posit numbers are decoded into a single exponent and a significand, performing an addition or a multiplication is the same as the application of an addition or a multiplication in the context of floating point numbers as shown in Figure \ref{fig:posit_op}.
 
-From \ref{fig:posit_op}, it is easy to conceive that a posit operation consume more hardware resources than a floating point operation. Note that even the floating point operation performed in the posit operator is bigger than a standard posit operation because the exponent and the significant are of variable size.
+From \ref{fig:posit_op}, it is easy to conceive that a posit operation consume more hardware resources than a floating point operation. Note that even the floating point operation performed in the posit operator is bigger than a standard posit operation because the exponent and the significant are of variable size. \ns{Some note about what are benefits of using posit then? Less number of bits overall?}
 
 
 % ==============================================================================
@@ -55,9 +55,9 @@ From \ref{fig:posit_op}, it is easy to conceive that a posit operation consume m
 % ------------------------------------------------------------------------------
 \subsection{PSDD file format}
 % ------------------------------------------------------------------------------
-In order to generate hardware representation of an \gls{spn}, We choose to use PSDD file format since it was already used by the research group of my daily advisor.
+\ns{psdd is a type of spn, so confusing to call it a type of file format.} In order to generate hardware representation of an \gls{spn}, We choose to use PSDD file format since it was already used by the research group of my daily advisor \ns{No need to justify, just mention that you use psdd and refer to the psdd paper, github repo of psdd authors, and  this repo and corresponding paper: https://github.com/laurago894/HwAwareProb}.
 
-A PSDD file contains three types of nodes: leaf nodes, true nodes and decomposition nodes. Each of these node can be decomposed into a set of wire, sum or product as it is shown in Figure \ref{fig:psdd2spn}.
+A PSDD file contains three types of nodes: leaf nodes, true nodes and decomposition nodes. Each of these node can be decomposed into a set of wire, sum or product as it is shown in Figure \ref{fig:psdd2spn}. \ns{Anything about binarizing the graph, such that every node has 2 inputs? You have to do that on top of psdd format, right?}
 
 \begin{figure}[!ht]
 \begin{mdframed}
@@ -96,7 +96,7 @@ Having the hardware code for a \gls{spn} is not sufficient. It is also necessary
 \begin{mdframed}
 	\centering
 	\includestandalone[width=\linewidth]{../Images/big_picture}
-	\caption{Content of zed Board. The \gls{fpga} contains the \gls{spn} and an input module to paralellize the inputs of the \gls{spn}. The embedded operating system launch a software which control the flow of data from the memory to the \gls{spn} and from the \gls{spn} to the memory. Data transfer are performed through \gls{axi} bus}
+	\caption{Content of zed Board. The \gls{fpga} contains the \gls{spn} and an input module to paralellize the inputs of the \gls{spn}. The embedded operating system launch a software which control the flow of data from the memory to the \gls{spn} and from the \gls{spn} to the memory. Data transfer are performed through \gls{axi} bus \ns{Describe a detailed input module. Does it have a fifo that work on multiple clock frequency ? (show that if that is the case)} \ns{Also describe details about valid ready interface used for flow control?}}
 	\label{fig:glob_workflow}
 \end{mdframed}
 \end{figure}
@@ -104,9 +104,9 @@ Having the hardware code for a \gls{spn} is not sufficient. It is also necessary
 % ------------------------------------------------------------------------------
 \subsection{FPGA}
 % ------------------------------------------------------------------------------
-The \gls{fpga} contains the \gls{spn} as well as an input module whose function is to convert a serial input to a parallel output. \Glspl{spn} may have a high number of inputs and the connection from the \gls{ram} to the \gls{fpga} is limited to 32 bits. Therefore this module is required.
+The \gls{fpga} contains the \gls{spn} as well as an input module whose function is to convert a serial input to a parallel output \ns{describe how synchronization is taken care of if fifo read and write interface works on different frequencies.}. \Glspl{spn} may have a high number of inputs and the connection from the \gls{ram} to the \gls{fpga} is limited to 32 bits. Therefore this module is required.
 
-The \gls{fpga} is size limited. Not all \gls{spn} will fit inside it. The key limiting factors are the number of slice \glspl{lut} and the number of \glspl{dsp}. A zed Board possesses 53200 slice \glspl{lut} and 220 \glspl{dsp}.
+The \gls{fpga} is size limited. Not all \gls{spn} will fit inside it. The key limiting factors are the number of slice \glspl{lut} and the number of \glspl{dsp}. A zed Board possesses 53200 slice \glspl{lut} and 220 \glspl{dsp}. \ns{Mention the size of biggest SPN that fits.}
 
 % ------------------------------------------------------------------------------
 \subsection{Memory}
@@ -116,7 +116,9 @@ The memory initially contains the software to be executed as well as the set of 
 % ------------------------------------------------------------------------------
 \subsection{Control unit}
 % ------------------------------------------------------------------------------
-The control unit execute the software. It should send data to the \gls{fpga} and receive the output from the \gls{spn}. The maximum frequency of the \gls{fpga} is known by design. Therefore we can just push the data at the best frequency that will not break the \gls{spn} and get the data. Once the data is received, it is sent over stdout which can be accessible through \gls{jtag} to get the data out of the zed board.
+The control unit execute the software. It should send data to the \gls{fpga} and receive the output from the \gls{spn}. The maximum frequency of the \gls{fpga} is known by design. Therefore we can just push the data at the best frequency that will not break the \gls{spn} and get the data. Once the data is received, \ns{explain how is this synchrnized} it is sent over stdout which can be accessible through \gls{jtag} to get the data out of the zed board.
+
+\ns{Put the pseudo code of the software that you use.}
 
 
 

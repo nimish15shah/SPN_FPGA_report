@@ -11,11 +11,13 @@ In this section, we are computing error bound for different \glspl{spn} as it wa
 
 we start by computing the error bound for a relatively small \gls{spn} in order to show exactly how it is computed and how the results can be interpreted. After that, we explore networks for which both floating point and posit representation could be used since the maximum and minimum value in these networks can be encoded. Then we explore some networks for which only posit representation can be used.
 
+\ns{Double float is not mentioned here or in the error bound section. Describe how double float is assumed to be a golden standard and how use it in computing bounds.}
+
 % ------------------------------------------------------------------------------
 \subsection{Simple example \label{sec:simple_example}}
 % ------------------------------------------------------------------------------
 
-Lets start by showing results for an simple example to give an intuition on the results. This examples is shown in Figure \ref{fig:example_03} and shows a \gls{spn} with 4 different literals ($1$, $\bar{1}$, $2$, $\bar{2}$) which represents to variables. Each branch has a label for which the error and the possible values are computed in Table \ref{tab:example_03}.
+Lets start by showing results for an simple example to give an intuition on the results. This examples is shown in Figure \ref{fig:example_03} and shows a \gls{spn} with 4 different literals ($1$, $\bar{1}$, $2$, $\bar{2}$) which represents to variables. Each branch has a label for which the error and the possible values are computed in Table \ref{tab:example_03}. \ns{Not clear in the table that the first few columns is about posit. Also, worth highlighting in the table what is the final relative error for posit.}
 
 In this example, we use 8-bits posit with 0 bits of exponent, and 8-bits float with 3 bits of exponents. From Table \ref{tab:example_03}, it can be observed that the result has a smaller error bound using floating point representation than using posit representation. This behavior is mainly observed on small network because the values inside the \gls{spn} have a relatively short range. Therefore, encoding the exponent in a fixed size field lead to better results. In general, networks are more likely to have a large range of values and posit will have better results.
 
@@ -52,7 +54,7 @@ In this example, we use 8-bits posit with 0 bits of exponent, and 8-bits float w
 \subsection{Error bound when both posit and float representation are in range}
 % ------------------------------------------------------------------------------
 
-Given a number of bits to represent a number, we compute the relative error of floating point and posit representation. Each network was tested with a different number of bits for each representation from the following list : (8, 12, 16, 20, 24, 28). For each number of bits, and each representation, we optimize the exponent size by choosing the value that minimize the relative error from the following list: (0, 2, 3, 4, 6, 8, 10, 11).
+Given a number of bits to represent a number, we compute the relative error of floating point and posit representation. Each network was tested with a different number of bits for each representation from the following list : (8, 12, 16, 20, 24, 28). For each number of bits, and each representation, we optimize the exponent size by choosing the value that minimize the relative error from the following list: (0, 2, 3, 4, 6, 8, 10, 11) \ns{why not do it exhaustively for all values until 11? This does not seem very computationally demanding}.
 
 In this section, we show only the results when both posit and floating point are in range for the minimum and maximum value of the \gls{spn}. The maximum exponent size which is tested is 11 since it represents the number of exponent bits for double precision floating point numbers which are used by the computer which performed the simulation.
 
@@ -66,7 +68,7 @@ This show the major limitation of floating point numbers. In order to be able to
 
 \begin{table}[!ht]
 	\centering
-	\caption{Relative error for posit and float representation given a \gls{spn} containing 37460 nodes (28770 products, and 8690 sums). The exponent size was optimized to minimize the relative error.}
+	\caption{Relative error for posit and float representation given a \gls{spn} containing 37460 nodes (28770 products, and 8690 sums). The exponent size was optimized to minimize the relative error. \ns{ambiguous to call it min relative error and max relative, as it can be interpreted in other ways. May be just report the worst case, and do not specify if it is related to min or max. That fact is not that important.}}
 	\label{tab:net1_res}
 	\begin{tabular}{|c||c|c|c||c|c|}
 	\hline
@@ -152,7 +154,7 @@ In some rare case, floating point representation is more suitable than posit as 
 \paragraph{Network 4}
 % --------------------------------------
 
-This fourth network contains 7769 nodes (6134 products and 1635 sums). The results are shown in Table \ref{tab:net4_res}. In the worst case it is better than posit. This is only by a small margin.
+This fourth network contains 7769 nodes (6134 products and 1635 sums). The results are shown in Table \ref{tab:net4_res}. In the worst case it \ns{specify what is "it"?} is better than posit. This is only by a small margin.
 
 \begin{table}[!ht]
 	\centering

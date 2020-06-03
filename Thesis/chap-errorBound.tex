@@ -3,15 +3,15 @@
 \chapter{Error bound}
 \label{cha:eb}
 
-
+\ns{Before explaining technical details, explain what bounds mean? Why would a user of SPN be interested in these numbers? Again, the technical details start a bit too directly.}
 % ==============================================================================
 \section{Error bound for Float}
 % ==============================================================================
-As posit is a widely used format, there already exists error bounds for floating point representation in the context of \glspl{spn} \cite{errorbound_float}. Using an absolute error bound would lead to very small quantity, therefore a relative error is used instead. This section report the method to compute error bound for floating point representation as described in \cite{errorbound_float}.
+As \sout{posit} \ns{float} is a widely used format, there already exists error bounds for floating point representation in the context of \glspl{spn} \cite{errorbound_float}. Using an absolute error bound would lead to very small quantity, therefore a relative error is used instead \ns{this sentence not clear. Also mention that computing absolute error bounds for float is difficult, while relative is possible}. This section report the method to compute error bound for floating point representation as described in \cite{errorbound_float}.
 
 \todo[inline]{Is it clear enough that floating point comes from Nimish's paper ? To be discussed with Nimish. Value that are out of range for float are just discarded.}
 
-\noindent Given that the goal is to use limit the number of bits used for a given representation, it may happen that a number of bits is not sufficient to represent all the values in a \gls{spn}. In this case, the number of bits is marked as \textit{out of range} and will be discarded.
+\noindent \ns{this sentence should be put after error models are explained.} Given that the goal is to use limit the number of bits used for a given representation, it may happen that a number of bits is not sufficient to represent all the values in a \gls{spn}. In this case, the number of bits is marked as \textit{out of range} and will be discarded \ns{what does discarded mean? How is it arithmetically taken care off. It cannot be just ignored right?}. \ns{This is one of the main aspect that my paper did not handle. So clearly highlight how you solve the problem of numbers not in range, and put it as your contribution.}
 
 \smallbreak
 
@@ -33,7 +33,7 @@ The relative error for a floating point number can be computed based on the mant
 	\label{eq:float_err_enc}
 \end{equation}
 
-
+\ns{put $\epsilon$ also in the above equation. A quick look does not clarify that the above quantity is in fact $\epsilon$ } 
 The relative error $\epsilon$ is then bounded by a value that does not depend on the value to be encoded, but depends on the number of mantissa bits (which is fixed). The only exception is zero, which can be encoded with a relative error equals to zero.
 
 % ------------------------------------------------------------------------------
@@ -83,20 +83,20 @@ As shown in Equation \ref{eq:rel_err}, the relative error for a posit representa
 % ------------------------------------------------------------------------------
 \subsection{Encoding error}
 % ------------------------------------------------------------------------------
-Given a number which is in the bound of the posit representation, the maximum relative error that could occur is expressed by Equation \ref{eq:posit_enc_error}. This error represent the inability to encode one more fraction bit. The fraction size is represented by $fs$, $rs$ represents the regime size and $es$ the exponent size. $N$ is the number of bits of the posit representation.
+Given a number which is in the bound of the posit representation, the maximum relative error that could occur is expressed by Equation \ref{eq:posit_enc_error}. This error represent the inability to encode one more fraction bit \ns{sentence not clear}. The fraction size is represented by $fs$, $rs$ represents the regime size and $es$ the exponent size. $N$ is the number of bits of the posit representation.
 
 \begin{equation}
 	\left |\frac{\Delta p}{p} \right| \leq 2^{-(fs+1)} = 2^{-(N-min(rs+es, N)+1)}
 	\label{eq:posit_enc_error}
 \end{equation}
 
-
-In contrast to floating point, this error highly depends on the number to be represented. It would be minimal for numbers around 1, and it would grows for high numbers and very small numbers (closer to 0). As it is shown in Figure \ref{fig:bfp}. The only exception is zero, which can be encoded with a relative error equals to zero.
+\ns{put $\epsilon$ in the figure}
+In contrast to floating point, this error highly depends on the number to be represented \ns{explain why? Looking at the equation one cannot know that es is constant but rs is not. Reiterate that clearly.}. It would be minimal for numbers around 1, and it would grows for high numbers and very small numbers (closer to 0). As it is shown in Figure \ref{fig:bfp}. The only exception is zero, which can be encoded with a relative error equals to zero.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.9\linewidth]{../Images/decimal_accuracy.png}
-	\caption{Image from \cite{bfp}. It shows how posit as a better accuracy for representing small numbers, and is able to represent very high numbers while floating point cannot.}
+	\caption{Image from \cite{bfp}. It shows how posit as a better accuracy for representing small numbers, and is able to represent very high numbers while floating point cannot. \ns{This figure is tricky to use. The floating numbers are assumed to have denormal values, while your models assume normal values. May be plot a figure using your models? Also, discuss this in state of the art while explaing difference between posit-float.}}
 	\label{fig:bfp}
 \end{figure}
 
@@ -104,7 +104,7 @@ In contrast to floating point, this error highly depends on the number to be rep
 % ------------------------------------------------------------------------------
 \subsection{Addition error}
 % ------------------------------------------------------------------------------
-The error for every addition can be computed as it is done in Equation \ref{eq:posit_add_err}. In this case, $\epsilon$ represent the error performed while encoding the result of the operation. Therefore, it depends on the value of the number.
+The error for every addition can be computed as it is done in Equation \ref{eq:posit_add_err}. In this case, $\epsilon$ represent the error performed while encoding the result of the operation. Therefore, it depends on the value of the number. \ns{Both models look exactly the same as float. Why repeat? Just highlight the key difference that $\epsilon$ is not constant and how you handle it.}
 
 \begin{align}
 \begin{split}
@@ -144,15 +144,17 @@ The error for every multiplication can be computed as it is done in Equation \re
 
 In order to compute the error bound for a \gls{spn}, the error must be computed for each node and be propagated up to the output. The error bound that is computed must be the worst case scenario. Therefore, there should not be any zero values since that is the only exception that can be encoded with a zero error.
 
-By setting all the literals to one, and propagating the error up to the output of the \gls{spn}, we can then compute the error bound of floating point representation for a given network.
+By setting all the literals to one, and propagating the error up to the output of the \gls{spn}, we can then compute the error bound of floating point representation for a given network. \ns{What about min values for floating point? This will only give error bound for worst max value.}
 
 % ------------------------------------------------------------------------------
 \subsection{Posit}
 % ------------------------------------------------------------------------------
-Error bound for posit require more work since the encoding error bound depends on the value which is encoded. Two cases must be taken into account: the maximum value of the \gls{spn}, and the minimum non-zero value of the \gls{spn}.
+Error bound for posit require more work since the encoding error bound depends on the value which is encoded. Two cases must be taken into account: the maximum value of the \gls{spn}, and the minimum non-zero value of the \gls{spn} \ns{give an intuition why this is worst case. Explain how it will need more regime bits and hence less mantissa bits}. \ns{this is also applicable to float, no?}
 
 \paragraph{Error for maximum output value} This error can be computed by setting every input literal to one and propagate the error bounds up to the output. However, this error is rarely the biggest error since it is common to normalize the \gls{spn} at the end of the training (set maximum output to 1).
 
 \paragraph{Error for minimum output value}
 
-The smallest value is more difficult to compute since there are a lot of possible combination of inputs. Therefore, a trick is used to get an approximation of the minimum possible value of the \gls{spn}. This trick consist in setting every literal to one (as for the maximum value), and replacing every SUM node by MIN nodes. In this case, the output of the \gls{spn} may not be a valid set of literals. But the output is smaller than the minimum output for a valid set of literals.
+The smallest value is more difficult to compute since there are a lot of possible combination of inputs. Therefore, a trick is used to get an approximation of the minimum possible value of the \gls{spn}. This trick consist in setting every literal to one (as for the maximum value), and replacing every SUM node by MIN nodes. In this case, the output of the \gls{spn} may not be a valid set of literals. But the output is smaller than the minimum output for a valid set of literals \ns{refer "Solving MAP Exactly by Searching on Compiled Arithmetic Circuits" paper to support this argument}.
+
+\ns{Maybe also put an algorithm to demonstrate the steps in posit error bound computation.}

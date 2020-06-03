@@ -3,6 +3,7 @@
 \chapter{State of the art}
 \label{cha:soa}
 
+\ns{descirbe in short what this chapter explains, before starting subsections}
 % ==============================================================================
 \section{Sum product networks}
 % ==============================================================================
@@ -13,7 +14,7 @@ A \gls{spn} is a rooted acyclic graph with variables as leaves, sum and product 
 
 \Glspl{spn} allows to represent a probability function by keeping the general conditions that makes this function tractable. Two graphical representations from \cite{spns} are shown in Figure \ref{fig:spn_example}. The leaves of this network are the indicators $X_i$ and $\bar{X_i}$. A \gls{spn} represent the probability $P(X_0, \bar{X_0}, ...,  X_N, \bar{X_N})$.
 
-In order to compute a specific set of probability with the evidence that $X_i=0$, the input of the \gls{spn} $X_i$ must be set to $0$ and the indicator $\bar{X_i}$ must be set to $1$. In order to compute a specific set of probability and marginalize over the variable $X_i$, the indicators $X_i$ and $\bar{X_i}$ must both be set to $1$. In any case, the values of the indicator $X_i$ and $\bar{X_i}$ will both be $0$ at the same time.
+In order to compute a specific set of probability with the evidence that $X_i=0$, the input of the \gls{spn} $X_i$ must be set to $0$ and the indicator $\bar{X_i}$ must be set to $1$. In order to compute a specific set of probability and marginalize over the variable $X_i$, the indicators $X_i$ and $\bar{X_i}$ must both be set to $1$. In any case, the values of the indicator $X_i$ and $\bar{X_i}$ will \ns{never?} both be $0$ at the same time.
 
 \begin{figure}[!ht]
 \begin{mdframed}
@@ -47,11 +48,12 @@ A \gls{spn} is consistent iff no variable appears negated in one child of a prod
 
 \todo[inline]{Maybe add a real application of \gls{spn} as an example ? To be discussed with Nimish}
 
+\ns{Yes, will be a good idea to discuss a bit about applications. You can also cite other papers that show how Bayesian nets, probabilisitc programs etc. can be compiled to SPNs. Cite paper on PSDDs also somewhere.}
 % ==============================================================================
 \section{Floating point representation}
 % ==============================================================================
-
-Floating point representation is the most widely used binary representation of numbers for digital applications. The floating point standard IEEE Std 754-2008 is defined in \cite{float_std}. In this work, we do not use floating point number compatible with this standard. The number of bits for the exponent and the fraction may be optimized for a given application. In addition to this, the sign bit is not used since \glspl{spn} are used to represent probabilities, which are only positive numbers.
+\ns{Call this subsection "Low preceion arithmetic" or something like that, and cite some papers that show better energy efficiency etc. in other applications like neural network. Also, some other applications where posit is found to be useful.}
+Floating point representation is the most widely used binary representation of numbers for digital applications. The floating point standard IEEE Std 754-2008 is defined in \cite{float_std}. In this work, we do not use floating point number compatible with this standard.\ns{, because} The number of bits for the exponent and the fraction may be optimized for a given application. In addition to this, the sign bit is not used since \glspl{spn} are used to represent probabilities, which are only positive numbers.
 
 % ------------------------------------------------------------------------------
 \subsection{Floating point bit-fields}
@@ -154,7 +156,13 @@ x = \xcancel{(-1)^s} \cdot 2^{2\cdot es \cdot \text{\textbf{k}}} \cdot 2^\text{\
 % ------------------------------------------------------------------------------
 Once decoded, posit numbers can be represented as an exponent and a significand. Therefore, a posit addition or multiplication can be performed using Algorithm \ref{alg:float_add} and \ref{alg:float_mult}. However, a posit encoder and decoder must be used. The pseudo code for the encode and decoder are described in Algorithm \ref{alg:posit_enc} and \ref{alg:posit_dec} respectively.
 
-There are two negative impact for posit numbers. First, because it requires two decoders and one encoders, computation time may be longer. Second, the floating point operation that is performed after decoding the input numbers is also slower than a usual floating point operations since the size of each field (exponent and mantissa) would be bigger than for floating point (given the same number of bits for each representation).
+There are two negative impact for posit numbers. First, because it requires two decoders and one encoders, computation time may be longer. Second, the floating point operation that is performed after decoding the input numbers is also slower than a usual floating point operations since the size of each field (exponent and mantissa) would be bigger than for floating point (given the same number of bits for each representation). \ns{Also mention the advantages of posit. Not clear from the text now.}
+
+\ns{Each subsections are in itself ok, but they are disconnected right now. Form a story to connect these subsections.}
+
+\ns{Also, in the introduction or over here, talk a bit about FPGA implementation, and refer to existing work in the field, their limitations?}
+
+\ns{Mention this paper "Resource-Efficient Logarithmic Number ScaleArithmetic for SPN Inference on FPGAs" somewhere in this section, and other related paper from these authors. If relevant, discuss and compare with their results.}
 
 \begin{algorithm}[H]
 \SetAlgoLined
